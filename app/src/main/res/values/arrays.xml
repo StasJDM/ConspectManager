@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="all_notes_dialog_item">
+        <item id="item_change">Изменить конспект</item>
+        <item id="item_delete">Удалить конспект</item>
+    </array>
+    <array name="add_photo_dialog_item">
+        <item id="item_photo">Сделать фото</item>
+        <item id="item_gallery">Из галлереи</item>
+    </array>
+</resources>

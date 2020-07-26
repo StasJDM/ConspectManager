@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateNoteActivity"
+    android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewTitle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Лекция 1 - Социология"
+            android:textSize="24sp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/textViewTitle2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="22.02.2020"
+            android:layout_marginLeft="8dp"
+            android:paddingBottom="4dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorLine"/>
+
+        <TextView
+            android:id="@+id/textViewTitle3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Фотографии"
+            android:textSize="18sp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:background="@color/colorBackground"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorLine"/>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pagerOneConspect"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+</LinearLayout>

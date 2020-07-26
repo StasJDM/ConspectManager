@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Конспект Менеджер</string>
+    <string-array name="sort_type">
+        <item>По имени</item>
+        <item>По дате добавления</item>
+        <item>По дате конспекта</item>
+    </string-array>
+</resources>
