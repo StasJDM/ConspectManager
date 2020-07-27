@@ -1,4 +1,4 @@
-package com.stasyanstudio.practic;
+package com.spappstudio.conspectmanager;
 
 public class Photo {
 

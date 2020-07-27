@@ -1,4 +1,4 @@
-package com.stasyanstudio.practic;
+package com.spappstudio.conspectmanager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,12 +8,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,9 +31,10 @@ public class OneNoteActivity extends AppCompatActivity {
     String subject;
     String date;
     String about;
+    int page_now = 0;
 
-    //ArrayList<String> imagesPath;
     ArrayList<Photo> photos;
+    ArrayList<String> photos_path = new ArrayList<String>();
     ArrayList<String> notes;
     int pageCount;
 
@@ -57,8 +54,11 @@ public class OneNoteActivity extends AppCompatActivity {
         DBHelper dbHelper = new DBHelper(this);
         photos = dbHelper.getPhotos(id);
         pageCount = photos.size();
-        Log.d("LOG", "PAGE COUNT: " + pageCount);
-        Log.d("LOG", "PAGE COUNT: " + dbHelper.getPhotoCount());
+
+        photos_path = new ArrayList<String>();
+        for (int i = 0; i < photos.size(); i++) {
+            photos_path.add(photos.get(i).path_to_img);
+        }
 
         textViewTitle1 = (TextView)findViewById(R.id.textViewTitle1);
         textViewTitle2 = (TextView)findViewById(R.id.textViewTitle2);
@@ -79,7 +79,7 @@ public class OneNoteActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                Log.d("LOG", "onPageSelected, position = " + position);
+                page_now = position;
             }
 
             @Override
@@ -101,13 +101,11 @@ public class OneNoteActivity extends AppCompatActivity {
         @NonNull
         @Override
         public Fragment getItem(int position) {
-            //return PageFragment.newInstance(position, photos.get(position).path_to_img);
             return PageFragment.newInstance(photos.get(position).number + 1, photos.get(position).path_to_img);
         }
 
         @Override
         public int getCount() {
-            Log.d("LOG", String.valueOf(pageCount));
             return pageCount;
         }
     }
@@ -128,10 +126,6 @@ public class OneNoteActivity extends AppCompatActivity {
                 intent.putExtra("subject", subject);
                 intent.putExtra("date", date);
                 intent.putExtra("about", about);
-                ArrayList<String> photos_path = new ArrayList<String>();
-                for (int i = 0; i < photos.size(); i++) {
-                    photos_path.add(photos.get(i).path_to_img);
-                }
                 intent.putStringArrayListExtra("imagesPath", photos_path);
                 startActivity(intent);
                 finish();
@@ -146,5 +140,12 @@ public class OneNoteActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void onClickOpenPhoto(View view) {
+        Intent intent = new Intent(OneNoteActivity.this, ActivityViewImages.class);
+        intent.putStringArrayListExtra("photos_path", photos_path);
+        intent.putExtra("page_now", page_now);
+        startActivity(intent);
     }
 }

@@ -1,4 +1,4 @@
-package com.stasyanstudio.practic;
+package com.spappstudio.conspectmanager;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -39,7 +38,6 @@ public class TypeOfPhotoDialog extends DialogFragment {
         try {
             mCallback = (OnFragmentInteractionListener) getActivity();
         } catch (Exception e) {
-            Log.d("LOG", e.getMessage());
         }
         photosPathArrayList = new ArrayList<String>();
         return builder.setItems(R.array.add_photo_dialog_item, new DialogInterface.OnClickListener() {

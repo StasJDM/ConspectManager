@@ -1,38 +1,23 @@
-package com.stasyanstudio.practic;
+package com.spappstudio.conspectmanager;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
-import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
-import static android.os.Environment.getExternalStoragePublicDirectory;
 
 public class AddNotesActivity extends AppCompatActivity {
 
@@ -113,7 +98,6 @@ public class AddNotesActivity extends AppCompatActivity {
                 break;
             case REQUEST_IMAGE_CAPTURE:
                 if (resultCode == RESULT_OK) {
-                    Log.d("LOG", "Image path: " + currentPhotoPath);
                     Intent intent = new Intent(AddNotesActivity.this, CreateNoteActivity.class);
                     intent.putExtra("type", "photo");
                     intent.putExtra("photoPath", currentPhotoPath);

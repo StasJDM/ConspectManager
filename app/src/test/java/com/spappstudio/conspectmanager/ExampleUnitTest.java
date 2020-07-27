@@ -1,4 +1,4 @@
-package com.stasyanstudio.practic;
+package com.spappstudio.conspectmanager;
 
 import org.junit.Test;
 

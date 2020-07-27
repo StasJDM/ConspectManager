@@ -1,4 +1,4 @@
-package com.stasyanstudio.practic;
+package com.spappstudio.conspectmanager;
 
 import android.content.ContentValues;
 import android.content.Context;

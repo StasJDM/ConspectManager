@@ -1,4 +1,4 @@
-package com.stasyanstudio.practic;
+package com.spappstudio.conspectmanager;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

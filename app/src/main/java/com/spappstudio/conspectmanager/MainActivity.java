@@ -1,4 +1,4 @@
-package com.stasyanstudio.practic;
+package com.spappstudio.conspectmanager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -7,11 +7,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-
-import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,13 +24,16 @@ public class MainActivity extends AppCompatActivity {
                     Manifest.permission.READ_EXTERNAL_STORAGE);
             int writePermission = ActivityCompat.checkSelfPermission(this,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            int cameraPermission = ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.CAMERA);
 
             if (writePermission != PackageManager.PERMISSION_GRANTED ||
-                    readPermission != PackageManager.PERMISSION_GRANTED) {
+                    readPermission != PackageManager.PERMISSION_GRANTED ||
+                    cameraPermission != PackageManager.PERMISSION_GRANTED) {
 
                 this.requestPermissions(
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                Manifest.permission.READ_EXTERNAL_STORAGE},
+                                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
                         REQUEST_ID_READ_WRITE_PERMISSION
                 );
             }

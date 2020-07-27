@@ -1,9 +1,8 @@
-package com.stasyanstudio.practic;
+package com.spappstudio.conspectmanager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.stasyanstudio.practic;
+package com.spappstudio.conspectmanager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,28 +12,22 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.app.Activity;
 import android.content.ClipData;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhotoDialog.OnFragmentInteractionListener {
+public class EditNoteActivity extends AppCompatActivity implements  TypeOfPhotoDialog.OnFragmentInteractionListener {
 
     ViewPager viewPager;
     PagerAdapter pagerAdapter;
@@ -53,12 +47,19 @@ public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhoto
 
     int code;
 
+    int id;
+    int n_photos;
+    String name;
+    String subject;
+    String date;
+    String about;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_note);
+        setContentView(R.layout.activity_edit_note);
 
-        setTitle("Новый конспект");
+        setTitle("Изменить конспект");
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -68,15 +69,14 @@ public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhoto
         editTextDate = (EditText)findViewById(R.id.editTextDate);
         editTextAbout = (EditText)findViewById(R.id.editTextAbout);
 
-        String type = getIntent().getExtras().getString("type");
-        if (type.equals("gallery")) {
-            imagesPath = getIntent().getExtras().getStringArrayList("imagesPath");
-            pageCount = imagesPath.size();
-        } else if (type.equals("photo")) {
-            imagesPath = new ArrayList<String>();
-            imagesPath.add(getIntent().getExtras().getString("photoPath"));
-            pageCount = 1;
-        }
+        id = getIntent().getIntExtra("id", -1);
+        editTextName.setText(getIntent().getStringExtra("name"));
+        editTextSubject.setText(getIntent().getStringExtra("subject"));
+        editTextDate.setText(getIntent().getStringExtra("date"));
+        editTextAbout.setText(getIntent().getStringExtra("about"));
+
+        imagesPath = getIntent().getStringArrayListExtra("imagesPath");
+        pageCount = imagesPath.size();
 
         viewPager = (ViewPager)findViewById(R.id.pager);
         pagerAdapter = new ImagesFragmentPagerAdapter(getSupportFragmentManager());
@@ -99,6 +99,50 @@ public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhoto
         });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+            case R.id.item_ok:
+                if (!editTextName.getText().toString().equals("")) {
+                    DBHelper dbHelper = new DBHelper(this);
+                    dbHelper.updateConspect(
+                            id,
+                            name = editTextName.getText().toString(),
+                            subject = editTextSubject.getText().toString(),
+                            date = editTextDate.getText().toString(),
+                            about = editTextAbout.getText().toString(),
+                            n_photos = imagesPath.size()
+                    );
+                    //int conspect_id = dbHelper.lastInsertedConspectId();
+                    notes = new ArrayList<String>();
+
+                    for (int i = 0; i < imagesPath.size(); i++) {
+                        notes.add("");
+                        //dbHelper.insertPhoto(conspect_id, i, imagesPath.get(i), notes.get(i));
+                    }
+                    Intent intent = new Intent(EditNoteActivity.this, OneNoteActivity.class);
+                    intent.putExtra("id", id);
+                    intent.putExtra("name", name);
+                    intent.putExtra("subject", subject);
+                    intent.putExtra("date", date);
+                    intent.putExtra("about", about);
+                    intent.putExtra("n_photos", n_photos);
+                    startActivity(intent);
+                    Toast.makeText(this, "Конспект изменен", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    editTextName.setHintTextColor(Color.RED);
+                    Toast.makeText(this, "Название коспекта обязательно для заполнения", Toast.LENGTH_LONG).show();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private class ImagesFragmentPagerAdapter extends FragmentPagerAdapter {
         public ImagesFragmentPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -113,43 +157,6 @@ public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhoto
         @Override
         public int getCount() {
             return pageCount;
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                super.onBackPressed();
-                return true;
-            case R.id.item_ok:
-                if (!editTextName.getText().toString().equals("")) {
-                    DBHelper dbHelper = new DBHelper(this);
-                    dbHelper.insertConspect(
-                            editTextName.getText().toString(),
-                            editTextSubject.getText().toString(),
-                            editTextDate.getText().toString(),
-                            editTextAbout.getText().toString(),
-                            imagesPath.size()
-                    );
-                    int conspect_id = dbHelper.lastInsertedConspectId();
-                    notes = new ArrayList<String>();
-
-                    for (int i = 0; i < imagesPath.size(); i++) {
-                        notes.add("");
-                        dbHelper.insertPhoto(conspect_id, i, imagesPath.get(i), notes.get(i));
-                    }
-                    Intent intent = new Intent(CreateNoteActivity.this, AllNotesActivity.class);
-                    startActivity(intent);
-                    Toast.makeText(this, "Конспект создан", Toast.LENGTH_SHORT).show();
-                    finish();
-                } else {
-                    editTextName.setHintTextColor(Color.RED);
-                    Toast.makeText(this, "Название коспекта обязательно для заполнения", Toast.LENGTH_LONG).show();
-                }
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
         }
     }
 

@@ -1,10 +1,8 @@
-package com.stasyanstudio.practic;
+package com.spappstudio.conspectmanager;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,7 +96,6 @@ public class CustomAdapter extends BaseAdapter {
             @Override
             public boolean onLongClick(View v) {
                 if (!isEmpty) {
-                    Log.d("LOG", "УДЕРЖИВАНИЕ");
                     CustomDialogFragment dialogFragment = new CustomDialogFragment(CustomAdapter.this, position);
                     Bundle args = new Bundle();
                     args.putInt("id", conspects.get(position).id);
@@ -108,7 +105,6 @@ public class CustomAdapter extends BaseAdapter {
                 return false;
             }
         });
-
 
         return rowView;
     }

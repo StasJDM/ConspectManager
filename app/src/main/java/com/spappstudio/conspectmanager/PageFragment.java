@@ -1,18 +1,9 @@
-package com.stasyanstudio.practic;
+package com.spappstudio.conspectmanager;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapRegionDecoder;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,7 +11,6 @@ import androidx.fragment.app.Fragment;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
-import com.squareup.picasso.Picasso;
 
 public class PageFragment extends Fragment {
 
@@ -53,9 +43,10 @@ public class PageFragment extends Fragment {
         SubsamplingScaleImageView imageView = (SubsamplingScaleImageView)view.findViewById(R.id.imageView);
         imageView.setImage(ImageSource.uri(imagesPath));
         imageView.setMinimumDpi(1);
-        imageView.setDoubleTapZoomDpi(1);
+        if (getActivity().getClass() == ActivityViewImages.class) {
+            imageView.setDoubleTapZoomDpi(1);
+            imageView.setDoubleTapZoomScale(3);
+        }
         return view;
     }
-
-
 }
