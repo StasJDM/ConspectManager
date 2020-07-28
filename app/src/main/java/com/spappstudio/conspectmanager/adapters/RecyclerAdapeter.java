@@ -1,21 +1,22 @@
 package com.spappstudio.conspectmanager.adapters;
 
 import android.content.Intent;
-import android.util.Log;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.spappstudio.conspectmanager.ActivityViewImages;
-import com.spappstudio.conspectmanager.OneNoteActivity;
 import com.spappstudio.conspectmanager.R;
 
 import java.util.ArrayList;
+
+import static com.spappstudio.conspectmanager.Photo.getRoundedCornerBitmap;
 
 public class RecyclerAdapeter extends RecyclerView.Adapter<RecyclerAdapeter.ViewHolder> {
 
@@ -60,11 +61,13 @@ public class RecyclerAdapeter extends RecyclerView.Adapter<RecyclerAdapeter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.imageView.setImage(ImageSource.uri(dataset.get(position)));
+        Bitmap bitmap = BitmapFactory.decodeFile(dataset.get(position));
+        holder.imageView.setImage(ImageSource.bitmap(getRoundedCornerBitmap(bitmap, 40)));
     }
 
     @Override
     public int getItemCount() {
         return dataset.size();
     }
+
 }

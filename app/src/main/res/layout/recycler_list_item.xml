@@ -3,6 +3,9 @@
     android:id="@+id/imageView"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="8dp"
     android:layout_marginVertical="8dp"
+    android:layout_marginLeft="4dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginRight="4dp"
+    android:layout_marginEnd="8dp"
     xmlns:android="http://schemas.android.com/apk/res/android" />
