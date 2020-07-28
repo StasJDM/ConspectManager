@@ -3,7 +3,7 @@
     android:theme="@style/Theme.AppCompat.NoActionBar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
+    android:background="#86000000"
     tools:context="com.spappstudio.conspectmanager.ActivityViewImages">
 
     <!-- The primary full-screen view. This can be replaced with whatever view

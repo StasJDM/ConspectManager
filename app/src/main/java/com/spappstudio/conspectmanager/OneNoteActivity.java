@@ -5,16 +5,29 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.slidingpanelayout.widget.SlidingPaneLayout;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.spappstudio.conspectmanager.adapters.RecyclerAdapeter;
 
 import java.util.ArrayList;
 
@@ -24,6 +37,10 @@ public class OneNoteActivity extends AppCompatActivity {
     PagerAdapter pagerAdapter;
     TextView textViewTitle1;
     TextView textViewTitle2;
+    RecyclerView recyclerView;
+    RecyclerView.Adapter recyclerViewAdapter;
+    RecyclerView.LayoutManager layoutManager;
+
 
     int id;
     int n_photos;
@@ -62,7 +79,10 @@ public class OneNoteActivity extends AppCompatActivity {
 
         textViewTitle1 = (TextView)findViewById(R.id.textViewTitle1);
         textViewTitle2 = (TextView)findViewById(R.id.textViewTitle2);
-        textViewTitle1.setText(name );
+        textViewTitle1.setText(name);
+        if (!date.equals("") || !subject.equals("")) {
+            textViewTitle2.setVisibility(View.VISIBLE);
+        }
         if (date.equals("")) {
             textViewTitle2.setText(subject);
         } else if (subject.equals("")) {
@@ -72,48 +92,11 @@ public class OneNoteActivity extends AppCompatActivity {
         }
 
 
-        viewPager = (ViewPager)findViewById(R.id.pagerOneConspect);
-        pagerAdapter = new ImagesFragmentPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(pagerAdapter);
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int position) {
-                page_now = position;
-            }
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset,
-                                       int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
-    }
-
-    private class ImagesFragmentPagerAdapter extends FragmentPagerAdapter {
-        public ImagesFragmentPagerAdapter(FragmentManager fragmentManager) {
-            super(fragmentManager);
-        }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            return PageFragment.newInstance(photos.get(position).number + 1, photos.get(position).path_to_img);
-        }
-
-        @Override
-        public int getCount() {
-            return pageCount;
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.one_note_menu, menu);
-        return true;
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerViewAdapter = new RecyclerAdapeter(photos_path);
+        recyclerView.setAdapter(recyclerViewAdapter);
     }
 
     @Override

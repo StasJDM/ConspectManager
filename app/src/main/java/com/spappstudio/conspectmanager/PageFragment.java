@@ -17,6 +17,7 @@ public class PageFragment extends Fragment {
     static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
     static final String ARGUMENT_IMAGE_PATH = "arg_image_path";
 
+
     int pageNumber;
     String imagesPath;
 
@@ -45,7 +46,7 @@ public class PageFragment extends Fragment {
         imageView.setMinimumDpi(1);
         if (getActivity().getClass() == ActivityViewImages.class) {
             imageView.setDoubleTapZoomDpi(1);
-            imageView.setDoubleTapZoomScale(3);
+            imageView.setDoubleTapZoomScale(2);
         }
         return view;
     }

@@ -11,10 +11,14 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -78,6 +82,17 @@ public class ActivityViewImages extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_view_images);
+
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+        getSupportActionBar().setSplitBackgroundDrawable(new ColorDrawable(Color.BLACK));
+        getSupportActionBar().setStackedBackgroundDrawable(new ColorDrawable(Color.BLACK));
+
+        if (android.os.Build.VERSION.SDK_INT >= 21){
+            Window window = getWindow();
+            //window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            //window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(Color.BLACK);
+        }
 
         photos = getIntent().getStringArrayListExtra("photos_path");
         page_now = getIntent().getIntExtra("page_now", 0);

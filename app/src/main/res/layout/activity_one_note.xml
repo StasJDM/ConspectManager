@@ -18,11 +18,18 @@
 
         <TextView
             android:id="@+id/textViewTitle2"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="22.02.2020"
             android:layout_marginLeft="8dp"
             android:paddingBottom="4dp"/>
+
+        <TextView
+            android:id="@+id/textViewAbout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
 
         <View
             android:layout_width="match_parent"
@@ -44,9 +51,17 @@
             android:layout_height="1dp"
             android:background="@color/colorLine"/>
 
-        <androidx.viewpager.widget.ViewPager
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:orientation="horizontal" />
+
+
+        <!--<androidx.viewpager.widget.ViewPager
+            android:layout_margin="8dp"
             android:id="@+id/pagerOneConspect"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="200dp" />-->
 
 </LinearLayout>

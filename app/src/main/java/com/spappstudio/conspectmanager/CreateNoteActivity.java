@@ -209,4 +209,8 @@ public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhoto
         this.code = 1;
     }
 
+    public void onClickOpenPhoto(View view) {
+
+    }
+
 }
