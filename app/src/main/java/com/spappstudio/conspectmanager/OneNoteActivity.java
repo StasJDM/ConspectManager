@@ -2,45 +2,28 @@ package com.spappstudio.conspectmanager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.slidingpanelayout.widget.SlidingPaneLayout;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.spappstudio.conspectmanager.adapters.RecyclerAdapeter;
 
 import java.util.ArrayList;
 
 public class OneNoteActivity extends AppCompatActivity {
 
-    ViewPager viewPager;
-    PagerAdapter pagerAdapter;
     TextView textViewTitle1;
     TextView textViewTitle2;
     RecyclerView recyclerView;
     RecyclerView.Adapter recyclerViewAdapter;
     RecyclerView.LayoutManager layoutManager;
-
 
     int id;
     int n_photos;
@@ -123,12 +106,5 @@ public class OneNoteActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public void onClickOpenPhoto(View view) {
-        Intent intent = new Intent(OneNoteActivity.this, ActivityViewImages.class);
-        intent.putStringArrayListExtra("photos_path", photos_path);
-        intent.putExtra("page_now", page_now);
-        startActivity(intent);
     }
 }

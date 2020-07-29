@@ -21,6 +21,7 @@ import static com.spappstudio.conspectmanager.Photo.getRoundedCornerBitmap;
 public class RecyclerAdapeter extends RecyclerView.Adapter<RecyclerAdapeter.ViewHolder> {
 
     public ArrayList<String> dataset;
+    public ArrayList<Bitmap> photos;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -61,13 +62,11 @@ public class RecyclerAdapeter extends RecyclerView.Adapter<RecyclerAdapeter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Bitmap bitmap = BitmapFactory.decodeFile(dataset.get(position));
-        holder.imageView.setImage(ImageSource.bitmap(getRoundedCornerBitmap(bitmap, 40)));
+        holder.imageView.setImage(ImageSource.uri(dataset.get(position)));
     }
 
     @Override
     public int getItemCount() {
         return dataset.size();
     }
-
 }

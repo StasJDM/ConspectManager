@@ -44,10 +44,7 @@ public class PageFragment extends Fragment {
         SubsamplingScaleImageView imageView = (SubsamplingScaleImageView)view.findViewById(R.id.imageView);
         imageView.setImage(ImageSource.uri(imagesPath));
         imageView.setMinimumDpi(1);
-        if (getActivity().getClass() == ActivityViewImages.class) {
-            imageView.setDoubleTapZoomDpi(1);
-            imageView.setDoubleTapZoomScale(2);
-        }
+        imageView.setDoubleTapZoomScale(1);
         return view;
     }
 }

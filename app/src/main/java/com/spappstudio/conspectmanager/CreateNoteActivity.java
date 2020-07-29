@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -24,6 +26,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.spappstudio.conspectmanager.adapters.RecyclerAdapeter;
+
 import java.util.ArrayList;
 
 public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhotoDialog.OnFragmentInteractionListener {
@@ -34,6 +38,9 @@ public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhoto
     EditText editTextSubject;
     EditText editTextDate;
     EditText editTextAbout;
+    RecyclerView recyclerView;
+    RecyclerView.Adapter recyclerViewAdapter;
+    RecyclerView.LayoutManager layoutManager;
 
     ArrayList<String> imagesPath;
     ArrayList<String> notes;
@@ -71,41 +78,12 @@ public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhoto
             pageCount = 1;
         }
 
-        viewPager = (ViewPager)findViewById(R.id.pager);
-        pagerAdapter = new ImagesFragmentPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(pagerAdapter);
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerViewAdapter = new RecyclerAdapeter(imagesPath);
+        recyclerView.setAdapter(recyclerViewAdapter);
 
-            @Override
-            public void onPageSelected(int position) {
-            }
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset,
-                                       int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
-    }
-
-    private class ImagesFragmentPagerAdapter extends FragmentPagerAdapter {
-        public ImagesFragmentPagerAdapter(FragmentManager fragmentManager) {
-            super(fragmentManager);
-        }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            return PageFragment.newInstance(position, imagesPath.get(position));
-        }
-
-        @Override
-        public int getCount() {
-            return pageCount;
-        }
     }
 
     @Override
@@ -199,8 +177,8 @@ public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhoto
                 Toast.makeText(this, "Фото добавлено", Toast.LENGTH_SHORT).show();
             }
         }
-        pagerAdapter.notifyDataSetChanged();
-        viewPager.refreshDrawableState();
+        recyclerViewAdapter.notifyDataSetChanged();
+        recyclerView.refreshDrawableState();
     }
 
     @Override
@@ -208,9 +186,4 @@ public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhoto
         this.photo_path = photo_path;
         this.code = 1;
     }
-
-    public void onClickOpenPhoto(View view) {
-
-    }
-
 }
