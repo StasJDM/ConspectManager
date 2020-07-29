@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.spappstudio.conspectmanager.objects.Conspect;
+import com.spappstudio.conspectmanager.objects.Photo;
+
 import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -22,6 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CONSPECT_TABLE_COLUMN_SUBJECT = "subject";
     public static final String CONSPECT_TABLE_COLUMN_DATE = "date";
     public static final String CONSPECT_TABLE_COLUMN_ABOUT = "about";
+    public static final String CONSPECT_TABLE_COLUMN_FIRST_IMAGE_PATH = "first_image_path";
 
     public static final String PHOTO_TABLE_COLUMN_ID = "id";
     public static final String PHOTO_TABLE_COLUMN_ID_CONSPECT = "id_conspect";
@@ -35,7 +39,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + CONSPECT_TABLE_NAME + "(id INTEGER PRIMARY KEY AUTOINCREMENT, n_photos INTEGER, name TEXT, subject TEXT, date TEXT, about TEXT)");
+        db.execSQL("CREATE TABLE " + CONSPECT_TABLE_NAME + "(id INTEGER PRIMARY KEY AUTOINCREMENT, n_photos INTEGER, name TEXT, subject TEXT, date TEXT, about TEXT, first_image_path TEXT)");
         db.execSQL("CREATE TABLE " + PHOTO_TABLE_NAME + "(id INTEGER PRIMARY KEY AUTOINCREMENT, id_conspect INTEGER, number_in_conspect INTEGER, path TEXT, note TEXT);");
     }
 
@@ -49,7 +53,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean insertConspect(String name, String subject, String date, String about, int n_photos) {
+    public boolean insertConspect(String name, String subject, String date, String about, int n_photos, String first_image_path) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(CONSPECT_TABLE_COLUMN_NAME, name);
@@ -57,11 +61,12 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(CONSPECT_TABLE_COLUMN_DATE, date);
         contentValues.put(CONSPECT_TABLE_COLUMN_ABOUT, about);
         contentValues.put(CONSPECT_TABLE_COLUMN_N_PHOTOS, n_photos);
+        contentValues.put(CONSPECT_TABLE_COLUMN_FIRST_IMAGE_PATH, first_image_path);
         db.insert(CONSPECT_TABLE_NAME, null, contentValues);
         return true;
     }
 
-    public boolean updateConspect(int id, String name, String subject, String date, String about, int n_photos) {
+    public boolean updateConspect(int id, String name, String subject, String date, String about, int n_photos, String first_image_path) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(CONSPECT_TABLE_COLUMN_NAME, name);
@@ -69,6 +74,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(CONSPECT_TABLE_COLUMN_DATE, date);
         contentValues.put(CONSPECT_TABLE_COLUMN_ABOUT, about);
         contentValues.put(CONSPECT_TABLE_COLUMN_N_PHOTOS, n_photos);
+        contentValues.put(CONSPECT_TABLE_COLUMN_FIRST_IMAGE_PATH, first_image_path);
         db.update(CONSPECT_TABLE_NAME, contentValues, "id = ?", new String[] {String.valueOf(id)});
         return true;
     }
@@ -114,7 +120,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_NAME)),
                     cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_SUBJECT)),
                     cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_DATE)),
-                    cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_ABOUT))
+                    cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_ABOUT)),
+                    cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_FIRST_IMAGE_PATH))
             ));
             cursor.moveToNext();
         }

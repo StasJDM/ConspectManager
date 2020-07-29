@@ -52,7 +52,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="Введите название"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName|textCapWords" />
 
         </TableRow>
 
@@ -84,7 +84,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="Не обязательно"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName|textCapWords" />
 
         </TableRow>
 
@@ -146,7 +146,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="Не обязательно"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine|textCapWords" />
         </TableRow>
 
         <View

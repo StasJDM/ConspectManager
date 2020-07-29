@@ -2,10 +2,10 @@ package com.spappstudio.conspectmanager.adapters;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,10 +13,11 @@ import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.spappstudio.conspectmanager.ActivityViewImages;
 import com.spappstudio.conspectmanager.R;
+import com.spappstudio.conspectmanager.picassotransform.RoundedCornersTransform;
+import com.spappstudio.conspectmanager.picassotransform.RoundedTransformation;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-
-import static com.spappstudio.conspectmanager.Photo.getRoundedCornerBitmap;
 
 public class RecyclerAdapeter extends RecyclerView.Adapter<RecyclerAdapeter.ViewHolder> {
 
@@ -27,9 +28,9 @@ public class RecyclerAdapeter extends RecyclerView.Adapter<RecyclerAdapeter.View
 
         private String mItem;
         private ArrayList<String> data;
-        public SubsamplingScaleImageView imageView;
+        public ImageView imageView;
 
-        public ViewHolder(SubsamplingScaleImageView iv, ArrayList<String> data) {
+        public ViewHolder(ImageView iv, ArrayList<String> data) {
             super(iv);
             iv.setOnClickListener(this);
             this.data = data;
@@ -54,15 +55,15 @@ public class RecyclerAdapeter extends RecyclerView.Adapter<RecyclerAdapeter.View
 
     @Override
     public RecyclerAdapeter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        SubsamplingScaleImageView imageView = (SubsamplingScaleImageView) LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_list_item, parent, false);
-        imageView.setMinimumDpi(1);
+        ImageView imageView = (ImageView) LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_list_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(imageView, dataset);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.imageView.setImage(ImageSource.uri(dataset.get(position)));
+        //holder.imageView.setImage(uri(dataset.get(position)));
+        Picasso.get().load("file:" + dataset.get(position)).transform(new RoundedTransformation(20, 0)).resize(600, 900).centerCrop().into(holder.imageView);
     }
 
     @Override

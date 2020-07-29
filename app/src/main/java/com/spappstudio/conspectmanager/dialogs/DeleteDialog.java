@@ -1,4 +1,4 @@
-package com.spappstudio.conspectmanager;
+package com.spappstudio.conspectmanager.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,6 +8,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
+
+import com.spappstudio.conspectmanager.AllNotesActivity;
+import com.spappstudio.conspectmanager.DBHelper;
 
 public class DeleteDialog extends DialogFragment {
 

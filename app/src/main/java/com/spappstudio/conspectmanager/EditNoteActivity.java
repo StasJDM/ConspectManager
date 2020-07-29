@@ -25,6 +25,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.spappstudio.conspectmanager.dialogs.TypeOfPhotoDialog;
+
 import java.util.ArrayList;
 
 public class EditNoteActivity extends AppCompatActivity implements  TypeOfPhotoDialog.OnFragmentInteractionListener {
@@ -114,7 +116,8 @@ public class EditNoteActivity extends AppCompatActivity implements  TypeOfPhotoD
                             subject = editTextSubject.getText().toString(),
                             date = editTextDate.getText().toString(),
                             about = editTextAbout.getText().toString(),
-                            n_photos = imagesPath.size()
+                            n_photos = imagesPath.size(),
+                            imagesPath.get(0)
                     );
                     //int conspect_id = dbHelper.lastInsertedConspectId();
                     notes = new ArrayList<String>();

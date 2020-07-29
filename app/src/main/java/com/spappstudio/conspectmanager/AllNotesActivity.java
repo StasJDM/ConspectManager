@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.spappstudio.conspectmanager.objects.Conspect;
+
 import java.util.ArrayList;
 
 public class AllNotesActivity extends AppCompatActivity {

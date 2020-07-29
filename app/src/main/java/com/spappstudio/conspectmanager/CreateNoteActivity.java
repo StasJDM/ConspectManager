@@ -1,12 +1,8 @@
 package com.spappstudio.conspectmanager;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
@@ -27,6 +23,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.spappstudio.conspectmanager.adapters.RecyclerAdapeter;
+import com.spappstudio.conspectmanager.dialogs.TypeOfPhotoDialog;
 
 import java.util.ArrayList;
 
@@ -83,7 +80,6 @@ public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhoto
         recyclerView.setLayoutManager(layoutManager);
         recyclerViewAdapter = new RecyclerAdapeter(imagesPath);
         recyclerView.setAdapter(recyclerViewAdapter);
-
     }
 
     @Override
@@ -100,7 +96,8 @@ public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhoto
                             editTextSubject.getText().toString(),
                             editTextDate.getText().toString(),
                             editTextAbout.getText().toString(),
-                            imagesPath.size()
+                            imagesPath.size(),
+                            imagesPath.get(0)
                     );
                     int conspect_id = dbHelper.lastInsertedConspectId();
                     notes = new ArrayList<String>();

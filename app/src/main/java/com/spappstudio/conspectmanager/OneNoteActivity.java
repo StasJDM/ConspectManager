@@ -4,16 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.spappstudio.conspectmanager.adapters.RecyclerAdapeter;
+import com.spappstudio.conspectmanager.dialogs.DeleteDialog;
+import com.spappstudio.conspectmanager.objects.Photo;
 
 import java.util.ArrayList;
 
@@ -106,5 +107,11 @@ public class OneNoteActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.one_note_menu, menu);
+        return true;
     }
 }
