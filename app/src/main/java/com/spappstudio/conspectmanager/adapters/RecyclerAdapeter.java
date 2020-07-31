@@ -1,22 +1,15 @@
 package com.spappstudio.conspectmanager.adapters;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.spappstudio.conspectmanager.ActivityViewImages;
 import com.spappstudio.conspectmanager.R;
-import com.spappstudio.conspectmanager.picassotransform.RoundedCornersTransform;
 import com.spappstudio.conspectmanager.picassotransform.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 
@@ -50,6 +43,7 @@ public class RecyclerAdapeter extends RecyclerView.Adapter<RecyclerAdapeter.View
             intent.putExtra("page_now", getAdapterPosition());
             view.getContext().startActivity(intent);
         }
+
     }
 
     public RecyclerAdapeter(ArrayList<String> data) {
@@ -65,7 +59,6 @@ public class RecyclerAdapeter extends RecyclerView.Adapter<RecyclerAdapeter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        //holder.imageView.setImage(uri(dataset.get(position)));
         Picasso.get().load("file:" + dataset.get(position)).transform(new RoundedTransformation(20, 0)).resize(600, 900).centerCrop().into(holder.imageView);
     }
 
@@ -90,12 +83,18 @@ public class RecyclerAdapeter extends RecyclerView.Adapter<RecyclerAdapeter.View
 
     @Override
     public void onRowSelected(ViewHolder viewHolder) {
-        //viewHolder.rowView
+
     }
 
     @Override
     public void onRowClear(ViewHolder viewHolder) {
 
+    }
+
+    @Override
+    public void onSwiped(int position) {
+        dataset.remove(position);
+        notifyItemRemoved(position);
     }
 
     public ArrayList<String> getDataset(){

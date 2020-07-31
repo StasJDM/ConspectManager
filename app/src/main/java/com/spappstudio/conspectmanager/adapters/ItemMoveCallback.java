@@ -19,18 +19,19 @@ public class ItemMoveCallback extends ItemTouchHelper.Callback {
 
     @Override
     public boolean isItemViewSwipeEnabled() {
-        return false;
+        return true;
     }
 
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-
+        mAdapter.onSwiped(i);
     }
 
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
         int dragFlags = ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
-        return makeMovementFlags(dragFlags, 0);
+        int swipeFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+        return makeMovementFlags(dragFlags, swipeFlags);
     }
 
     @Override
@@ -68,5 +69,6 @@ public class ItemMoveCallback extends ItemTouchHelper.Callback {
         void onRowMoved(int fromPosition, int toPosition);
         void onRowSelected(RecyclerAdapeter.ViewHolder viewHolder);
         void onRowClear(RecyclerAdapeter.ViewHolder viewHolder);
+        void onSwiped(int position);
     }
 }
