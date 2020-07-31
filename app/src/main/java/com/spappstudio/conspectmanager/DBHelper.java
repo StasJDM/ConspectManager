@@ -150,7 +150,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public boolean deleteConspect(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.rawQuery("DELETE FROM " + PHOTO_TABLE_NAME + " WHERE " + PHOTO_TABLE_COLUMN_ID + " = " + id +";", null);
+        deletePhotosInConspect(id);
         db.delete(CONSPECT_TABLE_NAME, "id = " + id,null);
         return true;
     }
@@ -158,6 +158,12 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean deletePhoto(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(PHOTO_TABLE_NAME, "id = " + id,null);
+        return true;
+    }
+
+    public boolean deletePhotosInConspect(int conspect_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(PHOTO_TABLE_NAME, PHOTO_TABLE_COLUMN_ID_CONSPECT + " = " + conspect_id,null);
         return true;
     }
 

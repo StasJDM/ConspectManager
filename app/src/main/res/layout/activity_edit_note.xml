@@ -190,10 +190,13 @@
 
         </TableLayout>
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/pager"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="500dp" />
+            android:layout_height="300dp"
+            android:orientation="horizontal">
+
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 

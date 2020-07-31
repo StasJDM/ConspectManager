@@ -1,7 +1,9 @@
 package com.spappstudio.conspectmanager;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,9 +11,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.spappstudio.conspectmanager.adapters.ItemMoveCallback;
 import com.spappstudio.conspectmanager.adapters.RecyclerAdapeter;
 import com.spappstudio.conspectmanager.dialogs.DeleteDialog;
 import com.spappstudio.conspectmanager.objects.Photo;
@@ -23,7 +27,7 @@ public class OneNoteActivity extends AppCompatActivity {
     TextView textViewTitle1;
     TextView textViewTitle2;
     RecyclerView recyclerView;
-    RecyclerView.Adapter recyclerViewAdapter;
+    RecyclerAdapeter recyclerViewAdapter;
     RecyclerView.LayoutManager layoutManager;
 
     int id;
@@ -43,6 +47,10 @@ public class OneNoteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_one_note);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
         id = intent.getExtras().getInt("id");
@@ -77,6 +85,7 @@ public class OneNoteActivity extends AppCompatActivity {
 
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerViewAdapter = new RecyclerAdapeter(photos_path);
@@ -86,6 +95,9 @@ public class OneNoteActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
             case R.id.item_edit:
                 Intent intent = new Intent(OneNoteActivity.this, EditNoteActivity.class);
                 intent.putExtra("id", id);
@@ -93,6 +105,7 @@ public class OneNoteActivity extends AppCompatActivity {
                 intent.putExtra("subject", subject);
                 intent.putExtra("date", date);
                 intent.putExtra("about", about);
+                photos_path = recyclerViewAdapter.getDataset();
                 intent.putStringArrayListExtra("imagesPath", photos_path);
                 startActivity(intent);
                 finish();

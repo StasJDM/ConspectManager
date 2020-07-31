@@ -2,9 +2,12 @@ package com.spappstudio.conspectmanager.adapters;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,11 +21,11 @@ import com.spappstudio.conspectmanager.picassotransform.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class RecyclerAdapeter extends RecyclerView.Adapter<RecyclerAdapeter.ViewHolder> {
+public class RecyclerAdapeter extends RecyclerView.Adapter<RecyclerAdapeter.ViewHolder> implements ItemMoveCallback.ItemTouchHelperContract {
 
     public ArrayList<String> dataset;
-    public ArrayList<Bitmap> photos;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -70,4 +73,33 @@ public class RecyclerAdapeter extends RecyclerView.Adapter<RecyclerAdapeter.View
     public int getItemCount() {
         return dataset.size();
     }
+
+    @Override
+    public void onRowMoved(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(dataset, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(dataset, i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+    @Override
+    public void onRowSelected(ViewHolder viewHolder) {
+        //viewHolder.rowView
+    }
+
+    @Override
+    public void onRowClear(ViewHolder viewHolder) {
+
+    }
+
+    public ArrayList<String> getDataset(){
+        return dataset;
+    }
+
 }

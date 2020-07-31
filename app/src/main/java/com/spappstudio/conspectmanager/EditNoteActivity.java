@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -25,18 +28,21 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.spappstudio.conspectmanager.adapters.ItemMoveCallback;
+import com.spappstudio.conspectmanager.adapters.RecyclerAdapeter;
 import com.spappstudio.conspectmanager.dialogs.TypeOfPhotoDialog;
 
 import java.util.ArrayList;
 
 public class EditNoteActivity extends AppCompatActivity implements  TypeOfPhotoDialog.OnFragmentInteractionListener {
 
-    ViewPager viewPager;
-    PagerAdapter pagerAdapter;
     EditText editTextName;
     EditText editTextSubject;
     EditText editTextDate;
     EditText editTextAbout;
+    RecyclerView recyclerView;
+    RecyclerAdapeter recyclerViewAdapter;
+    RecyclerView.LayoutManager layoutManager;
 
     ArrayList<String> imagesPath;
     ArrayList<String> notes;
@@ -80,25 +86,14 @@ public class EditNoteActivity extends AppCompatActivity implements  TypeOfPhotoD
         imagesPath = getIntent().getStringArrayListExtra("imagesPath");
         pageCount = imagesPath.size();
 
-        viewPager = (ViewPager)findViewById(R.id.pager);
-        pagerAdapter = new ImagesFragmentPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(pagerAdapter);
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int position) {
-                Log.d("LOG", "onPageSelected, position = " + position);
-            }
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset,
-                                       int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerViewAdapter = new RecyclerAdapeter(imagesPath);
+        ItemTouchHelper.Callback callback = new ItemMoveCallback(recyclerViewAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(recyclerView);
+        recyclerView.setAdapter(recyclerViewAdapter);
     }
 
     @Override
@@ -110,6 +105,7 @@ public class EditNoteActivity extends AppCompatActivity implements  TypeOfPhotoD
             case R.id.item_ok:
                 if (!editTextName.getText().toString().equals("")) {
                     DBHelper dbHelper = new DBHelper(this);
+                    imagesPath = recyclerViewAdapter.getDataset();
                     dbHelper.updateConspect(
                             id,
                             name = editTextName.getText().toString(),
@@ -119,12 +115,12 @@ public class EditNoteActivity extends AppCompatActivity implements  TypeOfPhotoD
                             n_photos = imagesPath.size(),
                             imagesPath.get(0)
                     );
-                    //int conspect_id = dbHelper.lastInsertedConspectId();
+                    dbHelper.deletePhotosInConspect(id);
                     notes = new ArrayList<String>();
 
                     for (int i = 0; i < imagesPath.size(); i++) {
                         notes.add("");
-                        //dbHelper.insertPhoto(conspect_id, i, imagesPath.get(i), notes.get(i));
+                        dbHelper.insertPhoto(id, i, imagesPath.get(i), notes.get(i));
                     }
                     Intent intent = new Intent(EditNoteActivity.this, OneNoteActivity.class);
                     intent.putExtra("id", id);
@@ -143,23 +139,6 @@ public class EditNoteActivity extends AppCompatActivity implements  TypeOfPhotoD
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private class ImagesFragmentPagerAdapter extends FragmentPagerAdapter {
-        public ImagesFragmentPagerAdapter(FragmentManager fragmentManager) {
-            super(fragmentManager);
-        }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            return PageFragment.newInstance(position, imagesPath.get(position));
-        }
-
-        @Override
-        public int getCount() {
-            return pageCount;
         }
     }
 
@@ -217,8 +196,8 @@ public class EditNoteActivity extends AppCompatActivity implements  TypeOfPhotoD
                 Toast.makeText(this, "Фото добавлено", Toast.LENGTH_SHORT).show();
             }
         }
-        pagerAdapter.notifyDataSetChanged();
-        viewPager.refreshDrawableState();
+        recyclerViewAdapter.notifyDataSetChanged();
+        recyclerView.refreshDrawableState();
     }
 
     @Override

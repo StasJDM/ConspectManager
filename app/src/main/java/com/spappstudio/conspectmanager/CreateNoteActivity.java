@@ -3,6 +3,7 @@ package com.spappstudio.conspectmanager;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.spappstudio.conspectmanager.adapters.ItemMoveCallback;
 import com.spappstudio.conspectmanager.adapters.RecyclerAdapeter;
 import com.spappstudio.conspectmanager.dialogs.TypeOfPhotoDialog;
 
@@ -36,7 +38,7 @@ public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhoto
     EditText editTextDate;
     EditText editTextAbout;
     RecyclerView recyclerView;
-    RecyclerView.Adapter recyclerViewAdapter;
+    RecyclerAdapeter recyclerViewAdapter;
     RecyclerView.LayoutManager layoutManager;
 
     ArrayList<String> imagesPath;
@@ -79,6 +81,9 @@ public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhoto
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerViewAdapter = new RecyclerAdapeter(imagesPath);
+        ItemTouchHelper.Callback callback = new ItemMoveCallback(recyclerViewAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(recyclerView);
         recyclerView.setAdapter(recyclerViewAdapter);
     }
 
