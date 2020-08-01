@@ -16,20 +16,38 @@
             android:textSize="30sp" />
 
 
-        <TextView
-            android:id="@+id/textViewTitle2"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginVertical="4dp"
-            android:text="Предмет"
-            android:textSize="22sp" />
+            android:orientation="horizontal">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginHorizontal="8dp"
+                    android:text="Предмет" />
+
+                <TextView
+                    android:id="@+id/textViewTitle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="2dp"
+                    android:layout_marginVertical="4dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="22.02.2020"
+                    android:textSize="18sp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textViewAbout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:layout_marginHorizontal="8dp"
+            android:textSize="18sp"
+            android:text="Здесь будет какой-нибудь тест, какое-нибудь описание не особо большое. Но красивое" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -38,11 +56,6 @@
             android:orientation="horizontal">
 
         </androidx.recyclerview.widget.RecyclerView>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Здесь будет какой-нибудь тест, какое-нибудь описание не особо большое. Но красивое"/>
 
 
 </LinearLayout>

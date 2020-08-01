@@ -18,7 +18,6 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -89,8 +88,6 @@ public class ActivityViewImages extends AppCompatActivity {
 
         if (android.os.Build.VERSION.SDK_INT >= 21){
             Window window = getWindow();
-            //window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            //window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(Color.BLACK);
         }
 
@@ -130,8 +127,6 @@ public class ActivityViewImages extends AppCompatActivity {
                 toggle();
             }
         });
-
-        //findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
     }
 
     public void onClickOpenPhoto(View view) {
@@ -147,7 +142,6 @@ public class ActivityViewImages extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             return PageFragment.newInstance(position, photos.get(position));
-            //return PageFragment.newInstance(photos.get(position).number + 1, photos.get(position).path_to_img);
         }
 
         @Override

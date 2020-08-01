@@ -3,7 +3,6 @@ package com.spappstudio.conspectmanager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,11 +10,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
-import com.spappstudio.conspectmanager.adapters.ItemMoveCallback;
+import com.google.android.material.chip.Chip;
 import com.spappstudio.conspectmanager.adapters.RecyclerAdapeter;
 import com.spappstudio.conspectmanager.dialogs.DeleteDialog;
 import com.spappstudio.conspectmanager.objects.Photo;
@@ -24,8 +22,10 @@ import java.util.ArrayList;
 
 public class OneNoteActivity extends AppCompatActivity {
 
+    Chip chip;
     TextView textViewTitle1;
     TextView textViewTitle2;
+    TextView textViewAbout;
     RecyclerView recyclerView;
     RecyclerAdapeter recyclerViewAdapter;
     RecyclerView.LayoutManager layoutManager;
@@ -71,18 +71,18 @@ public class OneNoteActivity extends AppCompatActivity {
 
         textViewTitle1 = (TextView)findViewById(R.id.textViewTitle1);
         textViewTitle2 = (TextView)findViewById(R.id.textViewTitle2);
-        textViewTitle1.setText(name);
-        if (!date.equals("") || !subject.equals("")) {
-            textViewTitle2.setVisibility(View.VISIBLE);
-        }
-        if (date.equals("")) {
-            textViewTitle2.setText(subject);
-        } else if (subject.equals("")) {
-            textViewTitle2.setText(date);
-        } else {
-            textViewTitle2.setText(subject + " - " + date);
-        }
+        textViewAbout = (TextView)findViewById(R.id.textViewAbout);
+        chip = (Chip)findViewById(R.id.chip);
 
+        textViewTitle1.setText(name);
+        textViewTitle2.setText(date);
+        chip.setText(subject);
+        chip.setSelected(true);
+        if (!about.equals("")) {
+            textViewAbout.setText(about);
+        } else {
+            textViewAbout.setVisibility(View.GONE);
+        }
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
 

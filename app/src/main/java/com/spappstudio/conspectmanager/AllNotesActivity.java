@@ -4,12 +4,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -49,13 +45,10 @@ public class AllNotesActivity extends AppCompatActivity {
         subjects.add("Прочее");
         chipGroup = findViewById(R.id.chip_group);
         for (int i = 0; i < subjects.size(); i++) {
-            Log.d("LOG", subjects.get(i));
             Chip chip = (Chip)this.getLayoutInflater().inflate(R.layout.layout_chip_choice, null, false);
-            Log.d("LOG", String.valueOf(chip.getId()));
             chip.setText(subjects.get(i));
             chipGroup.addView(chip, i);
         }
-        Log.d("LOG", String.valueOf(chipGroup.getChildCount()));
         chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(ChipGroup group, int checkedId) {
