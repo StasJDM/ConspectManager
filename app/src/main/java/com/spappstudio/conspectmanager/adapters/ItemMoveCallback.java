@@ -23,8 +23,8 @@ public class ItemMoveCallback extends ItemTouchHelper.Callback {
     }
 
     @Override
-    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        mAdapter.onSwiped(i);
+    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+        mAdapter.onSwiped(viewHolder.getAdapterPosition());
     }
 
     @Override

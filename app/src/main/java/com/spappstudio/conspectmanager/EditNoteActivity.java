@@ -99,6 +99,10 @@ public class EditNoteActivity extends AppCompatActivity implements  TypeOfPhotoD
                 if (!editTextName.getText().toString().equals("")) {
                     DBHelper dbHelper = new DBHelper(this);
                     imagesPath = recyclerViewAdapter.getDataset();
+                    if (imagesPath.size() == 0) {
+                        Toast.makeText(this, "Конспект должен содержать хотя бы одну фотографию", Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
                     dbHelper.updateConspect(
                             id,
                             name = editTextName.getText().toString(),

@@ -10,45 +10,26 @@
             android:id="@+id/textViewTitle1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Лекция 1 - Социология"
-            android:textSize="24sp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:text="Лекция 1"
+            android:textSize="30sp" />
+
 
         <TextView
             android:id="@+id/textViewTitle2"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="22.02.2020"
-            android:layout_marginLeft="8dp"
-            android:paddingBottom="4dp"/>
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginVertical="4dp"
+            android:text="Предмет"
+            android:textSize="22sp" />
 
         <TextView
             android:id="@+id/textViewAbout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorLine"/>
-
-        <TextView
-            android:id="@+id/textViewTitle3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Фотографии"
-            android:textSize="18sp"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="4dp"
-            android:background="@color/colorBackground"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorLine"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -57,5 +38,11 @@
             android:orientation="horizontal">
 
         </androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Здесь будет какой-нибудь тест, какое-нибудь описание не особо большое. Но красивое"/>
+
 
 </LinearLayout>

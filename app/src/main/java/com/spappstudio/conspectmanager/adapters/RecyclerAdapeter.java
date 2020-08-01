@@ -5,10 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.spappstudio.conspectmanager.ActivityViewImages;
+import com.spappstudio.conspectmanager.OneNoteActivity;
 import com.spappstudio.conspectmanager.R;
 import com.spappstudio.conspectmanager.picassotransform.RoundedTransformation;
 import com.squareup.picasso.Picasso;
@@ -59,7 +62,7 @@ public class RecyclerAdapeter extends RecyclerView.Adapter<RecyclerAdapeter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Picasso.get().load("file:" + dataset.get(position)).transform(new RoundedTransformation(20, 0)).resize(600, 900).centerCrop().into(holder.imageView);
+        Picasso.get().load("file:" + dataset.get(position)).transform(new RoundedTransformation(20, 0)).resize(800, 1200).centerCrop().into(holder.imageView);
     }
 
     @Override
@@ -93,7 +96,11 @@ public class RecyclerAdapeter extends RecyclerView.Adapter<RecyclerAdapeter.View
 
     @Override
     public void onSwiped(int position) {
-        dataset.remove(position);
+        if (dataset.size() > 1) {
+            dataset.remove(position);
+        } else {
+            dataset = new ArrayList<String>();
+        }
         notifyItemRemoved(position);
     }
 
