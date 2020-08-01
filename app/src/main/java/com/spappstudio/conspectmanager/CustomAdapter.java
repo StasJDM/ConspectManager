@@ -123,4 +123,8 @@ public class CustomAdapter extends BaseAdapter {
 
         return rowView;
     }
+
+    public void updateDataset(ArrayList<Conspect> data) {
+        this.conspects = data;
+    }
 }

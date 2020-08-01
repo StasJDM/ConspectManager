@@ -7,6 +7,23 @@
     tools:context=".AllNotesActivity"
     android:orientation="vertical">
 
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_marginHorizontal="8dp"
+            android:id="@+id/chip_group"
+            app:singleLine="true"
+            app:singleSelection="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </com.google.android.material.chip.ChipGroup>
+
+    </HorizontalScrollView>
+
     <ListView
         android:id="@+id/listViewAllNotes"
         android:layout_width="match_parent"

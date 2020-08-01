@@ -6,6 +6,7 @@
     <color name="colorLine">@android:color/darker_gray</color>
     <color name="colorBackground">#EEEEEE</color>
     <color name="colorBackgroundGray">#E7EDED</color>
+    <color name="colorBackgroundSelectedSubject">#E0F7FA</color>
 
     <color name="black_overlay">#66000000</color>
 </resources>

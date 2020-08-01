@@ -5,13 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.spappstudio.conspectmanager.ActivityViewImages;
-import com.spappstudio.conspectmanager.OneNoteActivity;
 import com.spappstudio.conspectmanager.R;
 import com.spappstudio.conspectmanager.picassotransform.RoundedTransformation;
 import com.squareup.picasso.Picasso;

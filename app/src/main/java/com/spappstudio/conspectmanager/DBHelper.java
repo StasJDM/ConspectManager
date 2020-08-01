@@ -129,6 +129,27 @@ public class DBHelper extends SQLiteOpenHelper {
         return conspects;
     }
 
+    public ArrayList<Conspect> getConspectsBySubject(String subject) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Conspect> conspects = new ArrayList<Conspect>();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + CONSPECT_TABLE_NAME + " WHERE " + CONSPECT_TABLE_COLUMN_SUBJECT + " = '" + subject + "';", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            conspects.add(new Conspect(
+                    cursor.getInt(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_ID)),
+                    cursor.getInt(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_N_PHOTOS)),
+                    cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_NAME)),
+                    cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_SUBJECT)),
+                    cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_DATE)),
+                    cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_ABOUT)),
+                    cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_FIRST_IMAGE_PATH))
+            ));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return conspects;
+    }
+
     public ArrayList<Photo> getPhotos(int conspect_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<Photo> photos = new ArrayList<Photo>();
@@ -174,6 +195,21 @@ public class DBHelper extends SQLiteOpenHelper {
         int id = cursor.getInt(0);
         cursor.close();
         return id;
+    }
+
+    public ArrayList<String> getSubjects() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<String> subjects = new ArrayList<String>();
+        Cursor cursor = db.rawQuery("SELECT DISTINCT("+ CONSPECT_TABLE_COLUMN_SUBJECT +") FROM " + CONSPECT_TABLE_NAME + ";", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            if (!cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_SUBJECT)).isEmpty()) {
+                subjects.add(cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_SUBJECT)));
+            }
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return subjects;
     }
 
     public void deleteAll() {
