@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -77,9 +78,9 @@ public class AddNotesActivity extends AppCompatActivity {
                     if (resultCode == RESULT_OK) {
                         String[] filePathColumn = {MediaStore.Images.Media.DATA};
                         imagesEncodetList = new ArrayList<String>();
+                        mArrayUri = new ArrayList<Uri>();
                         if (data.getClipData() != null) {
                             ClipData mClipData = data.getClipData();
-                            mArrayUri = new ArrayList<Uri>();
                             for (int i = 0; i < mClipData.getItemCount(); i++) {
                                 ClipData.Item item = mClipData.getItemAt(i);
                                 Uri uri = item.getUri();
@@ -91,11 +92,20 @@ public class AddNotesActivity extends AppCompatActivity {
                                 imagesEncodetList.add(imageEncopded);
                                 cursor.close();
                             }
-                            Intent intent = new Intent(AddNotesActivity.this, CreateNoteActivity.class);
-                            intent.putExtra("type", "gallery");
-                            intent.putStringArrayListExtra("imagesPath", imagesEncodetList);
-                            startActivity(intent);
+                        } else {
+                            Uri uri = data.getData();
+                            mArrayUri.add(uri);
+                            Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null);
+                            cursor.moveToFirst();
+                            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                            imageEncopded = cursor.getString(columnIndex);
+                            imagesEncodetList.add(imageEncopded);
+                            cursor.close();
                         }
+                        Intent intent = new Intent(AddNotesActivity.this, CreateNoteActivity.class);
+                        intent.putExtra("type", "gallery");
+                        intent.putStringArrayListExtra("imagesPath", imagesEncodetList);
+                        startActivity(intent);
                     }
                 } catch (Exception e) {
                     Toast.makeText(this, "Somthing went wrong", Toast.LENGTH_SHORT).show();
