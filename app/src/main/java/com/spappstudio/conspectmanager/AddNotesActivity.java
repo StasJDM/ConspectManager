@@ -7,6 +7,7 @@ import androidx.core.content.FileProvider;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -64,7 +65,7 @@ public class AddNotesActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_GALLERY);
+        startActivityForResult(Intent.createChooser(intent, "Выберите фотографии"), REQUEST_GALLERY);
     }
 
 

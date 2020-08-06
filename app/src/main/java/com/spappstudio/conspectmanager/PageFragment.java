@@ -1,5 +1,6 @@
 package com.spappstudio.conspectmanager;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +43,7 @@ public class PageFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.page_fragment_images, null);
         SubsamplingScaleImageView imageView = (SubsamplingScaleImageView)view.findViewById(R.id.imageView);
+        imageView.setOrientation(SubsamplingScaleImageView.ORIENTATION_0);
         imageView.setImage(ImageSource.uri(imagesPath));
         imageView.setMinimumDpi(1);
         imageView.setDoubleTapZoomScale(1);
