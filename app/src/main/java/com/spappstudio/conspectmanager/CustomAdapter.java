@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class CustomAdapter extends BaseAdapter {
 
     Context context;
-    ArrayList<Conspect> conspects;
+    public  ArrayList<Conspect> conspects;
     boolean isEmpty = false;
 
     private static LayoutInflater inflater = null;
@@ -29,7 +29,7 @@ public class CustomAdapter extends BaseAdapter {
         this.conspects = conspects;
         if (conspects.size() == 0) {
             isEmpty = true;
-            conspects.add(new Conspect(-1, -1, "Нажмите, чтобы добавить конспект", "", "", "", ""));
+            conspects.add(new Conspect(-1, -1, allNotesActivity.getString(R.string.click_to_add_conspect), "", "", "", ""));
         }
         context = allNotesActivity;
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

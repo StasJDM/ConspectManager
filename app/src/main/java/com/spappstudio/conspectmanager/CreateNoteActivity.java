@@ -60,7 +60,7 @@ public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhoto
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_note);
 
-        setTitle("Новый конспект");
+        setTitle(getString(R.string.new_conspect_title));
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -118,11 +118,11 @@ public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhoto
                     }
                     Intent intent = new Intent(CreateNoteActivity.this, AllNotesActivity.class);
                     startActivity(intent);
-                    Toast.makeText(this, "Конспект создан", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.conspect_created), Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
                     editTextName.setHintTextColor(Color.RED);
-                    Toast.makeText(this, "Название коспекта обязательно для заполнения", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getString(R.string.empty_conspect_title), Toast.LENGTH_LONG).show();
                 }
                 return true;
             default:
@@ -182,11 +182,11 @@ public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhoto
                             imagesPath.add(photo_path.get(i));
                             pageCount = imagesPath.size();
                         }
-                        Toast.makeText(this, "Фото добавлены", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.added_photos), Toast.LENGTH_SHORT).show();
                     }
                 }
             } catch (Exception e) {
-                Toast.makeText(this, "Ошибка галлереи!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.gallery_error), Toast.LENGTH_SHORT).show();
             }
         } else {
             if (resultCode == RESULT_OK) {
@@ -194,7 +194,7 @@ public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhoto
                     imagesPath.add(photo_path.get(i));
                     pageCount = imagesPath.size();
                 }
-                Toast.makeText(this, "Фото добавлено", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.added_photo), Toast.LENGTH_SHORT).show();
             }
         }
         recyclerViewAdapter.notifyDataSetChanged();

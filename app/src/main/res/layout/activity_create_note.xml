@@ -12,15 +12,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textViewTitle1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Основное"
-        android:textSize="18sp"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="4dp"
-        android:background="@color/colorBackground"/>
+        <TextView
+            android:id="@+id/textViewTitle1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBackground"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="4dp"
+            android:text="@string/basic"
+            android:textSize="18sp" />
 
     <View
         android:layout_width="match_parent"
@@ -39,10 +39,10 @@
 
             <TextView
                 android:id="@+id/textView3"
-                android:textColor="@android:color/black"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="Название"
+                android:text="@string/title"
+                android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
             <EditText
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Введите название"
+                android:hint="@string/enter_title"
                 android:inputType="textPersonName|textCapSentences" />
 
         </TableRow>
@@ -71,10 +71,10 @@
 
             <TextView
                 android:id="@+id/textView4"
-                android:textColor="@android:color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Предмет"
+                android:text="@string/subject"
+                android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
             <EditText
@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Не обязательно"
+                android:hint="@string/optional"
                 android:inputType="textPersonName|textCapSentences" />
 
         </TableRow>
@@ -102,22 +102,22 @@
 
             <TextView
                 android:id="@+id/textView5"
-                android:textColor="@android:color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Дата"
+                android:text="@string/date"
+                android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/editTextDate"
-                android:onClick="onClickSetDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:focusable="false"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Не обязательно"
-                android:inputType="date" />
+                android:focusable="false"
+                android:hint="@string/optional"
+                android:inputType="date"
+                android:onClick="onClickSetDate" />
 
         </TableRow>
 
@@ -135,10 +135,10 @@
 
             <TextView
                 android:id="@+id/textView8"
-                android:textColor="@android:color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Описание"
+                android:text="@string/description"
+                android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
             <EditText
@@ -147,7 +147,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Не обязательно"
+                android:hint="@string/optional"
                 android:inputType="textMultiLine|textCapSentences" />
         </TableRow>
 
@@ -168,7 +168,7 @@
                 android:id="@+id/textViewTitle3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Фотографии"
+                android:text="@string/photos"
                 android:textSize="18sp" />
 
             <TextView
@@ -177,7 +177,7 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="right"
                 android:onClick="onClickAddPhoto"
-                android:text="Добавить фото"
+                android:text="@string/add_photo"
                 android:textAllCaps="true"
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold" />

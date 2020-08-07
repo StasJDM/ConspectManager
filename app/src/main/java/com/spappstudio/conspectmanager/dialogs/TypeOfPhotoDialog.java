@@ -59,7 +59,7 @@ public class TypeOfPhotoDialog extends DialogFragment {
                             photosPathArrayList.add(currentPhotoPath);
                             mCallback.sendRequestCode(REQUEST_IMAGE_CAPTURE, photosPathArrayList);
                         } catch (ActivityNotFoundException e) {
-                            String errorMessage = "Ошибка камеры!";
+                            String errorMessage = getString(R.string.camera_error);
                             Toast toast = Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT);
                             toast.show();
                         }
@@ -68,7 +68,7 @@ public class TypeOfPhotoDialog extends DialogFragment {
                         Intent intent = new Intent(Intent.ACTION_PICK);
                         intent.setType("image/*");
                         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                        startActivityForResult(Intent.createChooser(intent, "Выберите"), REQUEST_GALLERY);
+                        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_photos)), REQUEST_GALLERY);
                         break;
                     default:
                         break;

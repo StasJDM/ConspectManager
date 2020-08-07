@@ -7,13 +7,11 @@ import androidx.core.content.FileProvider;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -37,7 +35,7 @@ public class AddNotesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_notes);
-        setTitle("Добавить конспект");
+        setTitle(getString(R.string.add_conspect_title));
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -55,7 +53,7 @@ public class AddNotesActivity extends AppCompatActivity {
             currentPhotoPath = file.getAbsolutePath();
 
         } catch (ActivityNotFoundException e) {
-            String errorMessage = "Ошибка камеры";
+            String errorMessage = getString(R.string.camera_error);
             Toast toast = Toast.makeText(AddNotesActivity.this, errorMessage, Toast.LENGTH_SHORT);
             toast.show();
         }
@@ -65,7 +63,7 @@ public class AddNotesActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        startActivityForResult(Intent.createChooser(intent, "Выберите фотографии"), REQUEST_GALLERY);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_photos)), REQUEST_GALLERY);
     }
 
 
@@ -109,7 +107,7 @@ public class AddNotesActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 } catch (Exception e) {
-                    Toast.makeText(this, "Somthing went wrong", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.gallery_error), Toast.LENGTH_SHORT).show();
                 }
                 break;
             case REQUEST_IMAGE_CAPTURE:

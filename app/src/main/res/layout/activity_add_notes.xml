@@ -11,10 +11,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Выберите действие"
+        android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"
-        android:textSize="32sp"
-        android:layout_gravity="center_horizontal"/>
+        android:text="@string/select_action"
+        android:textSize="32sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="Сделать\nфото"
+                android:text="@string/make_photo"
                 android:textSize="20sp" />
 
         </LinearLayout>
@@ -67,7 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="Выбрать из\nгалереи"
+                android:text="@string/select_from_gallery"
                 android:textSize="20sp" />
 
         </LinearLayout>

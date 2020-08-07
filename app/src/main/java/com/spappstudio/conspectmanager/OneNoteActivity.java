@@ -109,12 +109,6 @@ public class OneNoteActivity extends AppCompatActivity {
             case R.id.item_edit:
                 Intent intent = new Intent(OneNoteActivity.this, EditNoteActivity.class);
                 intent.putExtra("id", id);
-                intent.putExtra("name", name);
-                intent.putExtra("subject", subject);
-                intent.putExtra("date", date);
-                intent.putExtra("about", about);
-                photos_path = recyclerViewAdapter.getDataset();
-                intent.putStringArrayListExtra("imagesPath", photos_path);
                 startActivity(intent);
                 finish();
                 return true;
