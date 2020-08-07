@@ -6,10 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.ClipData;
 import android.content.Intent;
 import android.database.Cursor;
@@ -20,19 +19,20 @@ import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.spappstudio.conspectmanager.adapters.ItemMoveCallback;
 import com.spappstudio.conspectmanager.adapters.RecyclerAdapeter;
+import com.spappstudio.conspectmanager.dialogs.BackDialog;
 import com.spappstudio.conspectmanager.dialogs.TypeOfPhotoDialog;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhotoDialog.OnFragmentInteractionListener {
 
-    ViewPager viewPager;
-    PagerAdapter pagerAdapter;
     EditText editTextName;
     EditText editTextSubject;
     EditText editTextDate;
@@ -50,6 +50,9 @@ public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhoto
     ArrayList<String> imagesEncodetList;
     ArrayList<Uri> mArrayUri;
 
+    Calendar calendar;
+    String date;
+
     int code;
 
     @Override
@@ -61,6 +64,8 @@ public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhoto
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        calendar = Calendar.getInstance();
 
         editTextName = (EditText)findViewById(R.id.editTextName);
         editTextSubject = (EditText)findViewById(R.id.editTextSubject);
@@ -91,7 +96,7 @@ public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhoto
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                super.onBackPressed();
+                this.onBackPressed();
                 return true;
             case R.id.item_ok:
                 if (!editTextName.getText().toString().equals("")) {
@@ -123,6 +128,19 @@ public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhoto
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void onClickSetDate(View view) {
+        new DatePickerDialog(CreateNoteActivity.this, dateSetListener,
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        BackDialog backDialog = new BackDialog();
+        backDialog.show(getSupportFragmentManager(), "Back");
     }
 
     @Override
@@ -188,4 +206,28 @@ public class CreateNoteActivity extends AppCompatActivity implements TypeOfPhoto
         this.photo_path = photo_path;
         this.code = 1;
     }
+
+    DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, monthOfYear);
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            monthOfYear++;
+            String m;
+            String d;
+            if (monthOfYear < 9) {
+                m = "0" + String.valueOf(monthOfYear);
+            } else {
+                m = String.valueOf(monthOfYear);
+            }
+            if (dayOfMonth < 9) {
+                d = "0" + String.valueOf(dayOfMonth);
+            } else {
+                d = String.valueOf(dayOfMonth);
+            }
+
+            date = d + "." + m + "." + String.valueOf(year);
+            editTextDate.setText(date);
+        }
+    };
 }

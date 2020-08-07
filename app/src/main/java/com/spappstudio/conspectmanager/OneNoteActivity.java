@@ -75,9 +75,17 @@ public class OneNoteActivity extends AppCompatActivity {
         chip = (Chip)findViewById(R.id.chip);
 
         textViewTitle1.setText(name);
-        textViewTitle2.setText(date);
-        chip.setText(subject);
-        chip.setSelected(true);
+        if (!date.isEmpty()) {
+            textViewTitle2.setText(date);
+        } else {
+            textViewTitle2.setVisibility(View.GONE);
+        }
+        if (!subject.isEmpty()) {
+            chip.setText(subject);
+            chip.setSelected(true);
+        } else {
+            chip.setVisibility(View.GONE);
+        }
         if (!about.equals("")) {
             textViewAbout.setText(about);
         } else {
