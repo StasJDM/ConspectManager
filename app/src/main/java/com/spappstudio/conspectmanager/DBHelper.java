@@ -6,18 +6,23 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.spappstudio.conspectmanager.objects.CheckListItem;
 import com.spappstudio.conspectmanager.objects.Conspect;
 import com.spappstudio.conspectmanager.objects.Photo;
+import com.spappstudio.conspectmanager.objects.Task;
 
 import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "ConspectManagerDB";
 
     public static final String CONSPECT_TABLE_NAME = "ConspectManagerConspect";
     public static final String PHOTO_TABLE_NAME = "ConspectManagerPhoto";
+    public static final String TASK_TABLE_NAME = "ConspectManagerTask";
+    public static final String CHECK_LIST_OF_TASK_TABLE_NAME = "ConspectManagerCheckListOfTask";
+    public static final String CONSPECTS_OF_TASK_TABLE_NAME = "ConspectManagerConspectsOfTask";
 
     public static final String CONSPECT_TABLE_COLUMN_ID = "id";
     public static final String CONSPECT_TABLE_COLUMN_N_PHOTOS = "n_photos";
@@ -33,23 +38,127 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String PHOTO_TABLE_COLUMN_PATH = "path";
     public static final String PHOTO_TABLE_COLUMN_NOTE = "note";
 
+    public static final String TASK_TABLE_COLUMN_ID = "id";
+    public static final String TASK_TABLE_COLUMN_TITLE = "title";
+    public static final String TASK_TABLE_COLUMN_SUBJECT = "subject";
+    public static final String TASK_TABLE_COLUMN_DATE_OF_CREATE = "date_of_create";
+    public static final String TASK_TABLE_COLUMN_DEADLINE = "deadline";
+    public static final String TASK_TABLE_COLUMN_TEXT = "text";
+    public static final String TASK_TABLE_COLUMN_CHECK_LIST = "check_list";
+    public static final String TASK_TABLE_COLUMN_CONSPECTS = "conspects";
+    public static final String TASK_TABLE_COLUMN_IS_DONE = "is_done";
+
+    public static final String CHECK_LIST_TABLE_COLUMN_ID = "id";
+    public static final String CHECK_LIST_TABLE_COLUMN_TASK_ID = "task_id";
+    public static final String CHECK_LIST_TABLE_COLUMN_TEXT = "text";
+    public static final String CHECK_LIST_TABLE_COLUMN_IS_CHECKED = "is_checked";
+
+    public static final String CONSPECTS_TASK_TABLE_COLUMN_TASK_ID = "task_id";
+    public static final String CONSPECTS_TASK_TABLE_COLUMN_CONSPECT_ID = "conspect_id";
+
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + CONSPECT_TABLE_NAME + "(id INTEGER PRIMARY KEY AUTOINCREMENT, n_photos INTEGER, name TEXT, subject TEXT, date TEXT, about TEXT, first_image_path TEXT)");
-        db.execSQL("CREATE TABLE " + PHOTO_TABLE_NAME + "(id INTEGER PRIMARY KEY AUTOINCREMENT, id_conspect INTEGER, number_in_conspect INTEGER, path TEXT, note TEXT);");
+        db.execSQL("CREATE TABLE " + CONSPECT_TABLE_NAME + "(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "n_photos INTEGER, " +
+                "name TEXT, " +
+                "subject TEXT, " +
+                "date TEXT, " +
+                "about TEXT, " +
+                "first_image_path TEXT)");
+        db.execSQL("CREATE TABLE " + PHOTO_TABLE_NAME + "(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "id_conspect INTEGER, " +
+                "number_in_conspect INTEGER, " +
+                "path TEXT, " +
+                "note TEXT);");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         switch (oldVersion) {
             case 1:
+                db.execSQL("CREATE TABLE " + TASK_TABLE_NAME + "(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        "title TEXT, " +
+                        "subject TEXT, " +
+                        "date_of_create TEXT, " +
+                        "deadline TEXT, " +
+                        "text TEXT, " +
+                        "check_list INTEGER, " +
+                        "conspects INTEGER, " +
+                        "is_done INTEGER)");
+                db.execSQL("CREATE TABLE " + CHECK_LIST_OF_TASK_TABLE_NAME + "(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        "task_id INTEGER, " +
+                        "text TEXT, " +
+                        "is_checked INTEGER)");
+                db.execSQL("CREATE TABLE " + CONSPECTS_OF_TASK_TABLE_NAME + "(task_id INTEGER, conspect_id INTEGER)");
                 break;
             default:
                 break;
+        }
+    }
+
+    public void insertTask(Task task) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TASK_TABLE_COLUMN_TITLE, task.title);
+        contentValues.put(TASK_TABLE_COLUMN_SUBJECT, task.subject);
+        contentValues.put(TASK_TABLE_COLUMN_DATE_OF_CREATE, task.dateOfCreate);
+        contentValues.put(TASK_TABLE_COLUMN_DEADLINE, task.deadline);
+        contentValues.put(TASK_TABLE_COLUMN_TEXT, task.text);
+        contentValues.put(TASK_TABLE_COLUMN_CHECK_LIST, task.checkListCount);
+        contentValues.put(TASK_TABLE_COLUMN_CONSPECTS, task.conspectsCount);
+        contentValues.put(TASK_TABLE_COLUMN_IS_DONE, task.getIsDone());
+        long id = db.insert(TASK_TABLE_NAME, null, contentValues);
+
+        if (task.checkListCount > 0) {
+            insertCheckList(task.getCheckList(), id);
+        }
+
+        if (task.conspectsCount > 0) {
+            insertConspectOfTask(task.getConspects(), id);
+        }
+    }
+
+    public void insertCheckList(ArrayList<CheckListItem> checkList, long task_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        for (CheckListItem item : checkList) {
+            contentValues.clear();
+            contentValues.put(CHECK_LIST_TABLE_COLUMN_TASK_ID, task_id);
+            contentValues.put(CHECK_LIST_TABLE_COLUMN_TEXT, item.text);
+            contentValues.put(CHECK_LIST_TABLE_COLUMN_IS_CHECKED, item.isChecked);
+            db.insert(CHECK_LIST_OF_TASK_TABLE_NAME, null, contentValues);
+        }
+    }
+
+    public ArrayList<CheckListItem> getCheckList(int task_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<CheckListItem> checkList = new ArrayList<CheckListItem>();
+        Cursor cursor = db.query(CHECK_LIST_OF_TASK_TABLE_NAME, null,
+                CHECK_LIST_TABLE_COLUMN_TASK_ID + "=?", new String[] {String.valueOf(task_id)},
+                null, null, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            checkList.add(new CheckListItem(
+                    cursor.getInt(cursor.getColumnIndex(CHECK_LIST_TABLE_COLUMN_ID)),
+                    cursor.getString(cursor.getColumnIndex(CHECK_LIST_TABLE_COLUMN_TEXT)),
+                    cursor.getInt(cursor.getColumnIndex(CHECK_LIST_TABLE_COLUMN_IS_CHECKED))
+            ));
+        }
+        return checkList;
+    }
+
+    public void insertConspectOfTask(ArrayList<Conspect> conspects, long task_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        for (Conspect item : conspects) {
+            contentValues.clear();
+            contentValues.put(CONSPECTS_TASK_TABLE_COLUMN_TASK_ID, task_id);
+            contentValues.put(CONSPECTS_TASK_TABLE_COLUMN_CONSPECT_ID, item.id);
+            db.insert(CONSPECT_TABLE_NAME, null, contentValues);
         }
     }
 
