@@ -16,6 +16,7 @@
     <string name="title">Название</string>
     <string name="enter_title">Введите название</string>
     <string name="subject">Предмет</string>
+    <string name="subjects">Предметы</string>
     <string name="date">Дата</string>
     <string name="description">Описание</string>
     <string name="photos">Фотографии</string>
@@ -47,6 +48,7 @@
     <string name="create">Создать</string>
     <string name="settings">Настройки</string>
     <string name="delete_conspect">Удалить конспект</string>
+    <string name="tasks">Задания</string>
 
     <string name="title_activity_view_images">ActivityViewImages</string>
 </resources>

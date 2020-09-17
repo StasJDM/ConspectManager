@@ -20,21 +20,31 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".picassotransform.TasksActivity"
+            android:label="@string/title_activity_tasks"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".ActivityViewImages"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_view_images"
-            android:theme="@style/FullscreenTheme"></activity>
-        <activity android:name=".EditNoteActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".OneNoteActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".CreateNoteActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".AllNotesActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".AddNotesActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".MainActivity"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name=".EditNoteActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".OneNoteActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CreateNoteActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AllNotesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AddNotesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
