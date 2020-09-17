@@ -23,7 +23,9 @@ import android.widget.Toast;
 
 import com.spappstudio.conspectmanager.adapters.ItemMoveCallback;
 import com.spappstudio.conspectmanager.adapters.RecyclerAdapeter;
+import com.spappstudio.conspectmanager.dialogs.BackDialog;
 import com.spappstudio.conspectmanager.dialogs.TypeOfPhotoDialog;
+import com.spappstudio.conspectmanager.objects.Conspect;
 
 import java.util.ArrayList;
 
@@ -55,12 +57,14 @@ public class EditNoteActivity extends AppCompatActivity implements  TypeOfPhotoD
     String date;
     String about;
 
+    Conspect conspect;
+    DBHelper dbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_note);
-
-        setTitle("Изменить конспект");
+        setTitle(getString(R.string.edit_conspect_title));
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -69,17 +73,20 @@ public class EditNoteActivity extends AppCompatActivity implements  TypeOfPhotoD
         editTextSubject = (EditText)findViewById(R.id.editTextSubject);
         editTextDate = (EditText)findViewById(R.id.editTextDate);
         editTextAbout = (EditText)findViewById(R.id.editTextAbout);
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
 
         id = getIntent().getIntExtra("id", -1);
-        editTextName.setText(getIntent().getStringExtra("name"));
-        editTextSubject.setText(getIntent().getStringExtra("subject"));
-        editTextDate.setText(getIntent().getStringExtra("date"));
-        editTextAbout.setText(getIntent().getStringExtra("about"));
+        dbHelper = new DBHelper(this);
+        conspect = dbHelper.getConspectById(id);
 
-        imagesPath = getIntent().getStringArrayListExtra("imagesPath");
-        pageCount = imagesPath.size();
+        editTextName.setText(conspect.name);
+        editTextSubject.setText(conspect.subject);
+        editTextDate.setText(conspect.date);
+        editTextAbout.setText(conspect.about);
 
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+        imagesPath = dbHelper.getPhotosPath(conspect.id);
+        pageCount = conspect.n_photos;
+
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerViewAdapter = new RecyclerAdapeter(imagesPath);
@@ -93,14 +100,14 @@ public class EditNoteActivity extends AppCompatActivity implements  TypeOfPhotoD
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                super.onBackPressed();
+                this.onBackPressed();
                 return true;
             case R.id.item_ok:
                 if (!editTextName.getText().toString().equals("")) {
                     DBHelper dbHelper = new DBHelper(this);
                     imagesPath = recyclerViewAdapter.getDataset();
                     if (imagesPath.size() == 0) {
-                        Toast.makeText(this, "Конспект должен содержать хотя бы одну фотографию", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.empty_photos), Toast.LENGTH_SHORT).show();
                         return true;
                     }
                     dbHelper.updateConspect(
@@ -127,16 +134,22 @@ public class EditNoteActivity extends AppCompatActivity implements  TypeOfPhotoD
                     intent.putExtra("about", about);
                     intent.putExtra("n_photos", n_photos);
                     startActivity(intent);
-                    Toast.makeText(this, "Конспект изменен", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.conspect_changed), Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
                     editTextName.setHintTextColor(Color.RED);
-                    Toast.makeText(this, "Название коспекта обязательно для заполнения", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getString(R.string.empty_conspect_title), Toast.LENGTH_LONG).show();
                 }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        BackDialog backDialog = new BackDialog();
+        backDialog.show(getSupportFragmentManager(), "Back");
     }
 
     @Override
@@ -178,11 +191,11 @@ public class EditNoteActivity extends AppCompatActivity implements  TypeOfPhotoD
                             imagesPath.add(photo_path.get(i));
                             pageCount = imagesPath.size();
                         }
-                        Toast.makeText(this, "Фото добавлены", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.added_photos), Toast.LENGTH_SHORT).show();
                     }
                 }
             } catch (Exception e) {
-                Toast.makeText(this, "Ошибка галлереи!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.gallery_error), Toast.LENGTH_SHORT).show();
             }
         } else {
             if (resultCode == RESULT_OK) {
@@ -190,7 +203,7 @@ public class EditNoteActivity extends AppCompatActivity implements  TypeOfPhotoD
                     imagesPath.add(photo_path.get(i));
                     pageCount = imagesPath.size();
                 }
-                Toast.makeText(this, "Фото добавлено", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.added_photo), Toast.LENGTH_SHORT).show();
             }
         }
         recyclerViewAdapter.notifyDataSetChanged();

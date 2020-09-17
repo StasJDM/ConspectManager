@@ -4,15 +4,16 @@
 
     <item
         android:id="@+id/settings"
-        android:title="Настройки">
+        android:title="@string/settings"
+        app:showAsAction="never">
 
         <item
             android:id="@+id/item_edit"
-            android:title="Редактировать конспект" />
+            android:title="@string/edit_conspect_title" />
 
         <item
             android:id="@+id/item_delete"
-            android:title="Удалить конспект" />
+            android:title="@string/delete_conspect" />
 
     </item>
 

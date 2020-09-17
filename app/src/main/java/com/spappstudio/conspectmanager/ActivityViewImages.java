@@ -98,7 +98,7 @@ public class ActivityViewImages extends AppCompatActivity {
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         textView = (TextView)findViewById(R.id.textView);
-        textView.setText("Страница " + (page_now + 1) + " из " + pageCount);
+        textView.setText(getString(R.string.page) + " " + (page_now + 1) + " " + getString(R.string.page) + " " + pageCount);
 
         pager = (ViewPager)findViewById(R.id.fullscreen_content);
         pagerAdapter = new ImagesFragmentPagerAdapter(getSupportFragmentManager());
@@ -111,7 +111,7 @@ public class ActivityViewImages extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                textView.setText("Страница " + (position + 1) + " из " + pageCount);
+                textView.setText(getString(R.string.page) + " " + (position + 1) + " " + getString(R.string.page) + " " + pageCount);
             }
 
             @Override

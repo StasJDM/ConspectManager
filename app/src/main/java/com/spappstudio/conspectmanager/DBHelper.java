@@ -150,6 +150,23 @@ public class DBHelper extends SQLiteOpenHelper {
         return conspects;
     }
 
+    public Conspect getConspectById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + CONSPECT_TABLE_NAME + " WHERE " + CONSPECT_TABLE_COLUMN_ID + " = '" + id + "';", null);
+        cursor.moveToFirst();
+        Conspect conspect = new Conspect(
+                cursor.getInt(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_ID)),
+                cursor.getInt(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_N_PHOTOS)),
+                cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_NAME)),
+                cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_SUBJECT)),
+                cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_DATE)),
+                cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_ABOUT)),
+                cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_FIRST_IMAGE_PATH))
+        );
+        cursor.close();
+        return conspect;
+    }
+
     public ArrayList<Photo> getPhotos(int conspect_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<Photo> photos = new ArrayList<Photo>();
@@ -163,6 +180,19 @@ public class DBHelper extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex(PHOTO_TABLE_COLUMN_PATH)),
                     cursor.getString(cursor.getColumnIndex(PHOTO_TABLE_COLUMN_NOTE))
             ));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return photos;
+    }
+
+    public ArrayList<String> getPhotosPath(int conspect_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<String> photos = new ArrayList<String>();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + PHOTO_TABLE_NAME + " WHERE " + PHOTO_TABLE_COLUMN_ID_CONSPECT + " = " + conspect_id + ";", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            photos.add(cursor.getString(cursor.getColumnIndex(PHOTO_TABLE_COLUMN_PATH)));
             cursor.moveToNext();
         }
         cursor.close();

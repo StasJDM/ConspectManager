@@ -28,7 +28,7 @@ public class AllNotesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_notes);
 
-        setTitle("Все конспекты");
+        setTitle(getString(R.string.all_conspects_title));
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -41,8 +41,8 @@ public class AllNotesActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         subjects = dbHelper.getSubjects();
-        subjects.add(0, "Все");
-        subjects.add("Прочее");
+        subjects.add(0, getString(R.string.all));
+        subjects.add(getString(R.string.other));
         chipGroup = findViewById(R.id.chip_group);
         for (int i = 0; i < subjects.size(); i++) {
             Chip chip = (Chip)this.getLayoutInflater().inflate(R.layout.layout_chip_choice, null, false);
@@ -54,9 +54,9 @@ public class AllNotesActivity extends AppCompatActivity {
             public void onCheckedChanged(ChipGroup group, int checkedId) {
                 Chip chip_checked = group.findViewById(checkedId);
                 if (chip_checked != null) {
-                    if (chip_checked.getText().equals("Все")) {
+                    if (chip_checked.getText().equals(getString(R.string.all))) {
                         conspects = dbHelper.getAllConspects();
-                    } else if (chip_checked.getText().equals("Прочее")) {
+                    } else if (chip_checked.getText().equals(getString(R.string.other))) {
                         conspects = dbHelper.getConspectsBySubject("");
                     } else {
                         conspects = dbHelper.getConspectsBySubject(chip_checked.getText().toString());
