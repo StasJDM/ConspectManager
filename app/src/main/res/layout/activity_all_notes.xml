@@ -13,7 +13,7 @@
         android:scrollbars="none">
 
         <com.google.android.material.chip.ChipGroup
-            android:layout_marginHorizontal="8dp"
+            android:paddingHorizontal="8dp"
             android:id="@+id/chip_group"
             app:singleLine="true"
             app:singleSelection="true"
