@@ -1,4 +1,4 @@
-package com.spappstudio.conspectmanager.picassotransform;
+package com.spappstudio.conspectmanager;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
