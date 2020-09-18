@@ -1,4 +1,4 @@
-package com.spappstudio.conspectmanager.picassotransform;
+package com.spappstudio.conspectmanager;
 
 import android.os.Bundle;
 
@@ -9,8 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
-
-import com.spappstudio.conspectmanager.R;
 
 public class TasksActivity extends AppCompatActivity {
 

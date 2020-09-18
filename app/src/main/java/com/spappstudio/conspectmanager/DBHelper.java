@@ -122,6 +122,35 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    public ArrayList<Task> getAllTasks() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Task> tasks = new ArrayList<>();
+        Cursor cursor = db.query(TASK_TABLE_NAME, null, null,
+                null, null, null, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Task task = new Task(
+                    cursor.getInt(cursor.getColumnIndex(TASK_TABLE_COLUMN_ID)),
+                    cursor.getString(cursor.getColumnIndex(TASK_TABLE_COLUMN_TITLE)),
+                    cursor.getString(cursor.getColumnIndex(TASK_TABLE_COLUMN_SUBJECT)),
+                    cursor.getString(cursor.getColumnIndex(TASK_TABLE_COLUMN_DATE_OF_CREATE)),
+                    cursor.getString(cursor.getColumnIndex(TASK_TABLE_COLUMN_DEADLINE)),
+                    cursor.getString(cursor.getColumnIndex(TASK_TABLE_COLUMN_TEXT)),
+                    cursor.getInt(cursor.getColumnIndex(TASK_TABLE_COLUMN_CHECK_LIST)),
+                    cursor.getInt(cursor.getColumnIndex(TASK_TABLE_COLUMN_CONSPECTS)),
+                    cursor.getInt(cursor.getColumnIndex(TASK_TABLE_COLUMN_IS_DONE))
+            );
+            if (task.checkListCount > 0) {
+                task.addCheckList(getCheckList(task.id));
+            }
+            if (task.conspectsCount > 0) {
+                task.addConspects(getConspectsOfTask(task.id));
+            }
+            tasks.add(task);
+        }
+        return tasks;
+    }
+
     public void insertCheckList(ArrayList<CheckListItem> checkList, long task_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -160,6 +189,35 @@ public class DBHelper extends SQLiteOpenHelper {
             contentValues.put(CONSPECTS_TASK_TABLE_COLUMN_CONSPECT_ID, item.id);
             db.insert(CONSPECT_TABLE_NAME, null, contentValues);
         }
+    }
+
+    public ArrayList<Conspect> getConspectsOfTask(int task_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Integer> conpectsId = new ArrayList<>();
+        ArrayList<Conspect> conspects = new ArrayList<>();
+        Cursor cursor = db.query(CONSPECTS_OF_TASK_TABLE_NAME, new String[] {CONSPECTS_TASK_TABLE_COLUMN_CONSPECT_ID},
+                CONSPECTS_TASK_TABLE_COLUMN_TASK_ID + "=?", new String[] {String.valueOf(task_id)},
+                null, null, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            conpectsId.add(cursor.getInt(0));
+        }
+        for (int id : conpectsId) {
+            Cursor cursorConspects = db.query(CONSPECT_TABLE_NAME, null,
+                    CONSPECT_TABLE_COLUMN_ID + "=?", new String[] {String.valueOf(id)},
+                    null, null, null);
+            cursor.moveToFirst();
+            conspects.add(new Conspect(id,
+                    cursor.getInt(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_N_PHOTOS)),
+                    cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_NAME)),
+                    cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_SUBJECT)),
+                    cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_DATE)),
+                    cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_ABOUT)),
+                    cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_FIRST_IMAGE_PATH))
+                    ));
+            cursor.close();
+        }
+        return conspects;
     }
 
     public boolean insertConspect(String name, String subject, String date, String about, int n_photos, String first_image_path) {

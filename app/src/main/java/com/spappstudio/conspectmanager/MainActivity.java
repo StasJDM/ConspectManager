@@ -49,4 +49,13 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, AllNotesActivity.class);
         startActivity(intent);
     }
+
+    public void onClickTasks(View view) {
+        Intent intent = new Intent(MainActivity.this, TasksActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickSubjects(View view) {
+
+    }
 }

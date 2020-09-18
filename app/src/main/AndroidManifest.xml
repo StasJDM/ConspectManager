@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".picassotransform.TasksActivity"
+            android:name=".TasksActivity"
             android:label="@string/title_activity_tasks"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
