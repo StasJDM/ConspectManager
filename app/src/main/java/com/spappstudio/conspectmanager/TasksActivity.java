@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -42,11 +43,8 @@ public class TasksActivity extends AppCompatActivity {
         });
 
         dbHelper = new DBHelper(this);
-        //tasks = dbHelper.getAllTasks();
-        tasks = new ArrayList<>();
-        tasks.add(new Task(-1, "Task 1", "Math", "19.09.2020", "24.09.2020", "To do somthing\nSecond string\nAnd another string\nIt's the task", 0, 0, 0));
-        tasks.add(new Task(-1, "Task 2", "Physics", "19.09.2020", "24.09.2020", "To do somthing\nSecond string\nAnd another string\nIt's the task", 0, 0, 0));
-
+        tasks = dbHelper.getAllTasks();
+        
         recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
 
         recyclerLayoutManager = new LinearLayoutManager(this);

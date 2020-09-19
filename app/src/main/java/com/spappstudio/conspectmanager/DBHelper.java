@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.spappstudio.conspectmanager.objects.CheckListItem;
 import com.spappstudio.conspectmanager.objects.Conspect;
@@ -147,6 +148,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 task.addConspects(getConspectsOfTask(task.id));
             }
             tasks.add(task);
+            cursor.moveToNext();
         }
         return tasks;
     }
@@ -176,6 +178,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex(CHECK_LIST_TABLE_COLUMN_TEXT)),
                     cursor.getInt(cursor.getColumnIndex(CHECK_LIST_TABLE_COLUMN_IS_CHECKED))
             ));
+            cursor.moveToNext();
         }
         return checkList;
     }
@@ -201,6 +204,7 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             conpectsId.add(cursor.getInt(0));
+            cursor.moveToNext();
         }
         for (int id : conpectsId) {
             Cursor cursorConspects = db.query(CONSPECT_TABLE_NAME, null,
