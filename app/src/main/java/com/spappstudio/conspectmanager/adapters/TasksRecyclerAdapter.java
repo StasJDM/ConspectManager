@@ -22,8 +22,8 @@ public class TasksRecyclerAdapter extends RecyclerView.Adapter<TasksRecyclerAdap
         TextView textViewText;
         public ViewHolder(View view) {
             super(view);
-            textViewText = (TextView)view.findViewById(R.id.textViewTitle);
-            textViewTitle = (TextView)view.findViewById(R.id.textViewText);
+            textViewTitle = (TextView)view.findViewById(R.id.textViewTitle);
+            textViewText = (TextView)view.findViewById(R.id.textViewText);
         }
     }
 
@@ -48,5 +48,13 @@ public class TasksRecyclerAdapter extends RecyclerView.Adapter<TasksRecyclerAdap
     @Override
     public int getItemCount() {
         return dataset.size();
+    }
+
+    public void updateDataset(ArrayList<Task> dataset) {
+        this.dataset = dataset;
+    }
+
+    public void addTask(Task task) {
+        dataset.add(task);
     }
 }
