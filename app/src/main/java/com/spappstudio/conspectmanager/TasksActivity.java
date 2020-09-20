@@ -1,5 +1,6 @@
 package com.spappstudio.conspectmanager;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -7,6 +8,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.spappstudio.conspectmanager.adapters.TasksRecyclerAdapter;
 import com.spappstudio.conspectmanager.objects.Task;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,8 +21,10 @@ import java.util.ArrayList;
 
 public class TasksActivity extends AppCompatActivity {
 
+    private static final int REQUES_ADD_TASK = 0;
+
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter recyclerAdapter;
+    private TasksRecyclerAdapter recyclerAdapter;
     private RecyclerView.LayoutManager recyclerLayoutManager;
 
     private ArrayList<Task> tasks;
@@ -37,14 +41,14 @@ public class TasksActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(TasksActivity.this, AddTaskActivity.class);
+                startActivityForResult(intent, REQUES_ADD_TASK);
             }
         });
 
         dbHelper = new DBHelper(this);
         tasks = dbHelper.getAllTasks();
-        
+
         recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
 
         recyclerLayoutManager = new LinearLayoutManager(this);
@@ -52,5 +56,15 @@ public class TasksActivity extends AppCompatActivity {
 
         recyclerAdapter = new TasksRecyclerAdapter(tasks);
         recyclerView.setAdapter(recyclerAdapter);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUES_ADD_TASK && resultCode == RESULT_OK) {
+            tasks = dbHelper.getAllTasks();
+            recyclerAdapter.updateDataset(tasks);
+            recyclerAdapter.notifyDataSetChanged();
+        }
     }
 }

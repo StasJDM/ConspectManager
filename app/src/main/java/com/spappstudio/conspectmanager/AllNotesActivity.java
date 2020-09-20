@@ -40,7 +40,7 @@ public class AllNotesActivity extends AppCompatActivity {
         listView = (ListView)findViewById(R.id.listViewAllNotes);
         listView.setAdapter(adapter);
 
-        subjects = dbHelper.getSubjects();
+        subjects = dbHelper.getSubjectsFromConspects();
         subjects.add(0, getString(R.string.all));
         subjects.add(getString(R.string.other));
         chipGroup = findViewById(R.id.chip_group);

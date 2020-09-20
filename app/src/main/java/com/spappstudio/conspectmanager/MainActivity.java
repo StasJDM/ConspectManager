@@ -9,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     static final int REQUEST_ID_READ_WRITE_PERMISSION = 3;

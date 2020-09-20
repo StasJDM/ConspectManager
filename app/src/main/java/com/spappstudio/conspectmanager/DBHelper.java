@@ -24,6 +24,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TASK_TABLE_NAME = "ConspectManagerTask";
     public static final String CHECK_LIST_OF_TASK_TABLE_NAME = "ConspectManagerCheckListOfTask";
     public static final String CONSPECTS_OF_TASK_TABLE_NAME = "ConspectManagerConspectsOfTask";
+    public static final String SUBJECT_TABLE_NAME = "ConspectManagerSubjects";
 
     public static final String CONSPECT_TABLE_COLUMN_ID = "id";
     public static final String CONSPECT_TABLE_COLUMN_N_PHOTOS = "n_photos";
@@ -57,6 +58,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CONSPECTS_TASK_TABLE_COLUMN_TASK_ID = "task_id";
     public static final String CONSPECTS_TASK_TABLE_COLUMN_CONSPECT_ID = "conspect_id";
 
+    public static final String SUBJECT_TABLE_COLUMN_ID = "id";
+    public static final String SUBJECT_TABLE_COLUMN_TITLE = "title";
+
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -75,6 +79,21 @@ public class DBHelper extends SQLiteOpenHelper {
                 "number_in_conspect INTEGER, " +
                 "path TEXT, " +
                 "note TEXT);");
+        db.execSQL("CREATE TABLE " + TASK_TABLE_NAME + "(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "title TEXT, " +
+                "subject TEXT, " +
+                "date_of_create TEXT, " +
+                "deadline TEXT, " +
+                "text TEXT, " +
+                "check_list INTEGER, " +
+                "conspects INTEGER, " +
+                "is_done INTEGER)");
+        db.execSQL("CREATE TABLE " + CHECK_LIST_OF_TASK_TABLE_NAME + "(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "task_id INTEGER, " +
+                "text TEXT, " +
+                "is_checked INTEGER)");
+        db.execSQL("CREATE TABLE " + CONSPECTS_OF_TASK_TABLE_NAME + "(task_id INTEGER, conspect_id INTEGER)");
+        db.execSQL("CREATE TABLE " + SUBJECT_TABLE_NAME + "(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT)");
     }
 
     @Override
@@ -95,10 +114,23 @@ public class DBHelper extends SQLiteOpenHelper {
                         "text TEXT, " +
                         "is_checked INTEGER)");
                 db.execSQL("CREATE TABLE " + CONSPECTS_OF_TASK_TABLE_NAME + "(task_id INTEGER, conspect_id INTEGER)");
+                db.execSQL("CREATE TABLE " + SUBJECT_TABLE_NAME + "(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT)");
+
+                ArrayList<String> subjects = getSubjectsFromConspects();
+                for (String s : subjects) {
+                    insertSubject(s);
+                }
                 break;
             default:
                 break;
         }
+    }
+
+    public void insertSubject(String title) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(SUBJECT_TABLE_COLUMN_TITLE, title);
+        db.insert(SUBJECT_TABLE_NAME, null, contentValues);
     }
 
     public void insertTask(Task task) {
@@ -398,7 +430,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return id;
     }
 
-    public ArrayList<String> getSubjects() {
+    public ArrayList<String> getSubjectsFromConspects() {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<String> subjects = new ArrayList<String>();
         Cursor cursor = db.rawQuery("SELECT DISTINCT("+ CONSPECT_TABLE_COLUMN_SUBJECT +") FROM " + CONSPECT_TABLE_NAME + ";", null);
