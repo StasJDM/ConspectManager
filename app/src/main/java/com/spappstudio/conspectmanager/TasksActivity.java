@@ -55,7 +55,23 @@ public class TasksActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(recyclerLayoutManager);
 
         recyclerAdapter = new TasksRecyclerAdapter(tasks);
+
+        recyclerAdapter.setOnItemClickListener(new TasksRecyclerAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+                Log.d("LOG", String.valueOf(position));
+                Intent intent = new Intent(TasksActivity.this, OneTaskActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onItemLongClick(int position, View v) {
+
+            }
+        });
+
         recyclerView.setAdapter(recyclerAdapter);
+
     }
 
     @Override
