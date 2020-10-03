@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AddTaskActivity">
+    tools:context=".AddTaskActivity"
+    android:layout_marginHorizontal="8dp">
 
     <EditText
         android:id="@+id/editTextTitle"
@@ -38,13 +39,16 @@
 
     </HorizontalScrollView>
 
-    <EditText
-        android:id="@+id/editTextText"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Text" />
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Text"
+            android:background="@android:color/transparent"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
 
 </LinearLayout>

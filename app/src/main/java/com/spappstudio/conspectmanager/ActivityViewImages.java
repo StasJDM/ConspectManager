@@ -111,7 +111,7 @@ public class ActivityViewImages extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                textView.setText(getString(R.string.page) + " " + (position + 1) + " " + getString(R.string.page) + " " + pageCount);
+                textView.setText(getString(R.string.page) + " " + (position + 1) + " " + getString(R.string.page_of) + " " + pageCount);
             }
 
             @Override
