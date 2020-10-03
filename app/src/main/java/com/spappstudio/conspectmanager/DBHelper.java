@@ -185,6 +185,32 @@ public class DBHelper extends SQLiteOpenHelper {
         return tasks;
     }
 
+    public Task getTask(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TASK_TABLE_NAME, null,
+                TASK_TABLE_COLUMN_ID + "=?", new String[]{String.valueOf(id)},
+                null, null, null);
+        cursor.moveToFirst();
+        Task task = new Task(
+                id,
+                cursor.getString(cursor.getColumnIndex(TASK_TABLE_COLUMN_TITLE)),
+                cursor.getString(cursor.getColumnIndex(TASK_TABLE_COLUMN_SUBJECT)),
+                cursor.getString(cursor.getColumnIndex(TASK_TABLE_COLUMN_DATE_OF_CREATE)),
+                cursor.getString(cursor.getColumnIndex(TASK_TABLE_COLUMN_DEADLINE)),
+                cursor.getString(cursor.getColumnIndex(TASK_TABLE_COLUMN_TEXT)),
+                cursor.getInt(cursor.getColumnIndex(TASK_TABLE_COLUMN_CHECK_LIST)),
+                cursor.getInt(cursor.getColumnIndex(TASK_TABLE_COLUMN_CONSPECTS)),
+                cursor.getInt(cursor.getColumnIndex(TASK_TABLE_COLUMN_IS_DONE))
+        );
+        if (task.checkListCount > 0) {
+            task.addCheckList(getCheckList(task.id));
+        }
+        if (task.conspectsCount > 0) {
+            task.addConspects(getConspectsOfTask(task.id));
+        }
+        return task;
+    }
+
     public void insertCheckList(ArrayList<CheckListItem> checkList, long task_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();

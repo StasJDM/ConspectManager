@@ -59,8 +59,8 @@ public class TasksActivity extends AppCompatActivity {
         recyclerAdapter.setOnItemClickListener(new TasksRecyclerAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position, View v) {
-                Log.d("LOG", String.valueOf(position));
                 Intent intent = new Intent(TasksActivity.this, OneTaskActivity.class);
+                intent.putExtra("id", tasks.get(position).id);
                 startActivity(intent);
             }
 
