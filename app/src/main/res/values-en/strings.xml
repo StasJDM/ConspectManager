@@ -51,4 +51,9 @@
     <string name="tasks">Tasks</string>
 
     <string name="title_activity_view_images">ActivityViewImages</string>
+
+    <string name="add_task">Add a task</string>
+    <string name="task_added">Task added</string>
+    <string name="chosen_subject">Chosen subject</string>
+    <string name="select_conspectus">Select conspectus</string>
 </resources>

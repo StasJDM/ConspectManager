@@ -12,7 +12,9 @@ import com.spappstudio.conspectmanager.objects.Conspect;
 import com.spappstudio.conspectmanager.objects.Photo;
 import com.spappstudio.conspectmanager.objects.Task;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -358,6 +360,19 @@ public class DBHelper extends SQLiteOpenHelper {
         return conspects;
     }
 
+    public ArrayList<String> getAllConspectsToString() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<String> conspects = new ArrayList<String>();
+        Cursor cursor = db.rawQuery("SELECT " + CONSPECT_TABLE_COLUMN_NAME + " FROM " + CONSPECT_TABLE_NAME + ";", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            conspects.add(cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_NAME)));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return conspects;
+    }
+
     public ArrayList<Conspect> getConspectsBySubject(String subject) {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<Conspect> conspects = new ArrayList<Conspect>();
@@ -475,5 +490,11 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + CONSPECT_TABLE_NAME);
         db.execSQL("DELETE FROM " + PHOTO_TABLE_NAME);
+    }
+
+    public String getTodayDateString() {
+        Date dateNow = new Date();
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yyyy");
+        return formatForDateNow.format(dateNow);
     }
 }
