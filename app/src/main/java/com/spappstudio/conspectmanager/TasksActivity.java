@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.spappstudio.conspectmanager.adapters.TasksRecyclerAdapter;
+import com.spappstudio.conspectmanager.dialogs.SelectSubjectDialog;
 import com.spappstudio.conspectmanager.objects.Task;
 
 import androidx.annotation.Nullable;
@@ -72,6 +73,14 @@ public class TasksActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(recyclerAdapter);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        tasks = dbHelper.getAllTasks();
+        recyclerAdapter.updateDataset(tasks);
+        recyclerAdapter.notifyDataSetChanged();
     }
 
     @Override
