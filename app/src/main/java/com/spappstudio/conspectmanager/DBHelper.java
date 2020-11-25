@@ -373,6 +373,19 @@ public class DBHelper extends SQLiteOpenHelper {
         return conspects;
     }
 
+    public ArrayList<Integer> getAllConspectsId() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Integer> conspects_id = new ArrayList<Integer>();
+        Cursor cursor = db.rawQuery("SELECT " + CONSPECT_TABLE_COLUMN_ID + " FROM " + CONSPECT_TABLE_NAME + ";", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            conspects_id.add(cursor.getInt(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_ID)));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return conspects_id;
+    }
+
     public ArrayList<Conspect> getConspectsBySubject(String subject) {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<Conspect> conspects = new ArrayList<Conspect>();
