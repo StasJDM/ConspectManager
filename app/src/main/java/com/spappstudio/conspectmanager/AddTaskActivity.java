@@ -3,23 +3,35 @@ package com.spappstudio.conspectmanager;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.spappstudio.conspectmanager.dialogs.BackDialog;
 import com.spappstudio.conspectmanager.dialogs.SelectConspectDialog;
 import com.spappstudio.conspectmanager.dialogs.SelectSubjectDialog;
+import com.spappstudio.conspectmanager.interfaces.SelectConspectInterface;
+import com.spappstudio.conspectmanager.interfaces.SelectSubjectInterface;
+import com.spappstudio.conspectmanager.objects.CheckListItem;
+import com.spappstudio.conspectmanager.objects.Conspect;
 import com.spappstudio.conspectmanager.objects.Task;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.stream.Collectors;
 
-public class AddTaskActivity extends AppCompatActivity {
+public class AddTaskActivity extends AppCompatActivity implements SelectSubjectInterface, SelectConspectInterface {
 
     DBHelper dbHelper;
 
@@ -35,6 +47,12 @@ public class AddTaskActivity extends AppCompatActivity {
 
     ArrayList<String> subjectsArrayList;
     ArrayList<String> conspectsArrayList;
+    ArrayList<Integer> conspectsId;
+
+    ArrayList<Conspect> conspects;
+    ArrayList<CheckListItem> checkListItems;
+
+    Calendar calendar = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +71,9 @@ public class AddTaskActivity extends AppCompatActivity {
 
         subjectsArrayList = dbHelper.getSubjectsFromConspects();
         conspectsArrayList = dbHelper.getAllConspectsToString();
+        conspectsId = dbHelper.getAllConspectsId();
+
+        conspects = new ArrayList<>();
     }
 
     @Override
@@ -73,6 +94,12 @@ public class AddTaskActivity extends AppCompatActivity {
                         checkListCount,
                         conspectsCount,
                         0);
+                if (conspectsCount > 0) {
+                    task.addConspects(conspects);
+                }
+                if (checkListCount > 0) {
+                    task.addCheckList(checkListItems);
+                }
                 dbHelper.insertTask(task);
                 Toast.makeText(this, getString(R.string.task_added), Toast.LENGTH_SHORT).show();
                 finish();
@@ -102,8 +129,46 @@ public class AddTaskActivity extends AppCompatActivity {
 
     public void onClickConspects(View view) {
         String[] arr = new String[conspectsArrayList.size()];
-        SelectConspectDialog conspectDialog = new SelectConspectDialog(conspectsArrayList.toArray(arr));
+        SelectConspectDialog conspectDialog = new SelectConspectDialog(conspectsArrayList.toArray(arr), conspectsId);
         conspectDialog.show(getSupportFragmentManager(), "Conspects");
     }
 
+    public void onClickDeadline(View view) {
+        new DatePickerDialog(AddTaskActivity.this, dateSetListener,
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            deadLine = dayOfMonth + "." + month + "." + year;
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        }
+    };
+
+    @Override
+    public void selectSubject(String subjectName) {
+        this.subject = subjectName;
+        Log.d("Log", subjectName);
+    }
+
+    @Override
+    public void selectConspect(int id) {
+        Conspect conspect = dbHelper.getConspectById(id);
+        Boolean cons = false;
+        for (Conspect c:conspects) {
+            if (conspect.id == c.id) {
+                cons = true;
+            }
+        }
+        if (!cons) {
+            conspects.add(conspect);
+        }
+        this.conspectsCount = conspects.size();
+        Log.d("LOG", "CONSPECTS: " + conspects.size());
+    }
 }
