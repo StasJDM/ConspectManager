@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickSubjects(View view) {
-
+        Intent intent = new Intent(MainActivity.this, SubjectsActivity.class);
+        startActivity(intent);
     }
 }

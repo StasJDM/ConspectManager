@@ -10,6 +10,7 @@ import android.util.Log;
 import com.spappstudio.conspectmanager.objects.CheckListItem;
 import com.spappstudio.conspectmanager.objects.Conspect;
 import com.spappstudio.conspectmanager.objects.Photo;
+import com.spappstudio.conspectmanager.objects.Subject;
 import com.spappstudio.conspectmanager.objects.Task;
 
 import java.text.SimpleDateFormat;
@@ -330,6 +331,15 @@ public class DBHelper extends SQLiteOpenHelper {
         return count;
     }
 
+    public int getConspectCountBySubject(String subject) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + CONSPECT_TABLE_NAME + " WHERE " + CONSPECT_TABLE_COLUMN_SUBJECT + " = '" + subject + "';", null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        return count;
+    }
+
     public int getPhotoCount() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + PHOTO_TABLE_NAME + ";", null);
@@ -492,6 +502,23 @@ public class DBHelper extends SQLiteOpenHelper {
         while (!cursor.isAfterLast()) {
             if (!cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_SUBJECT)).isEmpty()) {
                 subjects.add(cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_SUBJECT)));
+            }
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return subjects;
+    }
+
+    public ArrayList<Subject> getSubjectWithConspectCount() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Subject> subjects = new ArrayList<Subject>();
+        Cursor cursor = db.rawQuery("SELECT DISTINCT("+ CONSPECT_TABLE_COLUMN_SUBJECT +") FROM " + CONSPECT_TABLE_NAME + ";", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            if (!cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_SUBJECT)).isEmpty()) {
+                String sub = cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_SUBJECT));
+                subjects.add(new Subject(sub,
+                        getConspectCountBySubject(sub)));
             }
             cursor.moveToNext();
         }
