@@ -56,4 +56,10 @@
     <string name="task_added">Задача добавлена</string>
     <string name="chosen_subject">Выберете предмет</string>
     <string name="select_conspectus">Выберите конспект</string>
+
+    <string name="enter_a_title">Введите заголовок</string>
+    <string name="enter_text">Введите текст заметки</string>
+    <string name="task_will_delete">Задача будет удалена</string>
+    <string name="edit_task">Редактировать задачу</string>
+    <string name="task_edited">Задача изменена</string>
 </resources>

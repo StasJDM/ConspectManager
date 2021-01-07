@@ -56,4 +56,10 @@
     <string name="task_added">Task added</string>
     <string name="chosen_subject">Chosen subject</string>
     <string name="select_conspectus">Select conspectus</string>
+
+    <string name="enter_a_title">Enter a title</string>
+    <string name="enter_text">Enter the text of the note</string>
+    <string name="task_will_delete">Task will be deleted</string>
+    <string name="edit_task">Edit task</string>
+    <string name="task_edited">Task edited</string>
 </resources>

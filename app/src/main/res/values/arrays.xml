@@ -8,4 +8,8 @@
         <item id="item_photo">To make a photo</item>
         <item id="item_gallery">From gallery</item>
     </array>
+    <array name="tasks_dialog_item">
+        <item id="item_change">Edit task</item>
+        <item id="item_delete">Delete task</item>
+    </array>
 </resources>

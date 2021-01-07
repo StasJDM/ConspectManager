@@ -158,6 +158,28 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void updateTask(Task task) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TASK_TABLE_COLUMN_TITLE, task.title);
+        contentValues.put(TASK_TABLE_COLUMN_SUBJECT, task.subject);
+        contentValues.put(TASK_TABLE_COLUMN_DATE_OF_CREATE, task.dateOfCreate);
+        contentValues.put(TASK_TABLE_COLUMN_DEADLINE, task.deadline);
+        contentValues.put(TASK_TABLE_COLUMN_TEXT, task.text);
+        contentValues.put(TASK_TABLE_COLUMN_CHECK_LIST, task.checkListCount);
+        contentValues.put(TASK_TABLE_COLUMN_CONSPECTS, task.conspectsCount);
+        contentValues.put(TASK_TABLE_COLUMN_IS_DONE, task.getIsDone());
+        long id = db.update(TASK_TABLE_NAME, contentValues, "id = ?", new String[] {String.valueOf(task.id)});
+
+        /*if (task.checkListCount > 0) {
+            updateCheckList(task.getCheckList(), id);
+        }
+
+        if (task.conspectsCount > 0) {
+            updateConspectOfTask(task.getConspects(), id);
+        }*/
+    }
+
     public ArrayList<Task> getAllTasks() {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<Task> tasks = new ArrayList<>();
@@ -212,6 +234,13 @@ public class DBHelper extends SQLiteOpenHelper {
             task.addConspects(getConspectsOfTask(task.id));
         }
         return task;
+    }
+
+    public void deleteTask(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TASK_TABLE_NAME, "id = " + id,null);
+        db.delete(CHECK_LIST_OF_TASK_TABLE_NAME, "task_id = " + id,null);
+        db.delete(CONSPECTS_OF_TASK_TABLE_NAME, "task_id = " + id,null);
     }
 
     public void insertCheckList(ArrayList<CheckListItem> checkList, long task_id) {

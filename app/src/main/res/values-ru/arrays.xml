@@ -8,4 +8,8 @@
         <item id="item_photo">Сделать фото</item>
         <item id="item_gallery">Из галлереи</item>
     </array>
+    <array name="tasks_dialog_item">
+        <item id="item_change">Редактировать задачу</item>
+        <item id="item_delete">Удалить задачу</item>
+    </array>
 </resources>

@@ -6,7 +6,9 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.spappstudio.conspectmanager.adapters.TasksRecyclerAdapter;
+import com.spappstudio.conspectmanager.dialogs.DeleteTaskDialog;
 import com.spappstudio.conspectmanager.dialogs.SelectSubjectDialog;
+import com.spappstudio.conspectmanager.dialogs.TasksLongClickDialog;
 import com.spappstudio.conspectmanager.objects.Task;
 
 import androidx.annotation.Nullable;
@@ -43,6 +45,7 @@ public class TasksActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TasksActivity.this, AddTaskActivity.class);
+                intent.putExtra("type", "add");
                 startActivityForResult(intent, REQUES_ADD_TASK);
             }
         });
@@ -67,13 +70,27 @@ public class TasksActivity extends AppCompatActivity {
 
             @Override
             public void onItemLongClick(int position, View v) {
-
+                TasksLongClickDialog dialog = new TasksLongClickDialog(new DeleteTaskDialog.NotifyListener() {
+                    @Override
+                    public void onDelete(int position) {
+                        tasks = dbHelper.getAllTasks();
+                        recyclerAdapter.updateDataset(tasks);
+                       recyclerAdapter.notifyItemRemoved(position);
+                    }
+                });
+                Bundle args = new Bundle();
+                args.putInt("id", tasks.get(position).id);
+                args.putInt("position", position);
+                dialog.setArguments(args);
+                dialog.show(getSupportFragmentManager(), "task_long_dialog");
             }
         });
 
         recyclerView.setAdapter(recyclerAdapter);
 
     }
+
+
 
     @Override
     protected void onResume() {
