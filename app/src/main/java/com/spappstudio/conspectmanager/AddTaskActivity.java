@@ -35,8 +35,12 @@ public class AddTaskActivity extends AppCompatActivity implements SelectSubjectI
 
     DBHelper dbHelper;
 
+    Task task;
+    int id;
+
     EditText editTextTitle;
     EditText editTextText;
+    String type;
 
     String subject = "";
     String dateOfCreate = "";
@@ -59,7 +63,9 @@ public class AddTaskActivity extends AppCompatActivity implements SelectSubjectI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
-        setTitle(getString(R.string.add_task));
+        Intent intent = getIntent();
+        type =  intent.getExtras().getString("type");
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -68,6 +74,16 @@ public class AddTaskActivity extends AppCompatActivity implements SelectSubjectI
         editTextText = findViewById(R.id.editTextText);
 
         dbHelper = new DBHelper(this);
+
+        if (type.equals("edit")) {
+            id = intent.getExtras().getInt("id");
+            task = dbHelper.getTask(id);
+            editTextTitle.setText(task.title);
+            editTextText.setText(task.text);
+            setTitle(getString(R.string.edit_task));
+        } else {
+            setTitle(getString(R.string.add_task));
+        }
 
         subjectsArrayList = dbHelper.getSubjectsFromConspects();
         conspectsArrayList = dbHelper.getAllConspectsToString();
@@ -83,27 +99,44 @@ public class AddTaskActivity extends AppCompatActivity implements SelectSubjectI
                 this.onBackPressed();
                 return true;
             case R.id.item_ok:
-                dateOfCreate = dbHelper.getTodayDateString();
-                Task task;
-                task = new Task(-1,
-                        editTextTitle.getText().toString(),
-                        subject,
-                        dateOfCreate,
-                        deadLine,
-                        editTextText.getText().toString(),
-                        checkListCount,
-                        conspectsCount,
-                        0);
-                if (conspectsCount > 0) {
-                    task.addConspects(conspects);
+                if (editTextTitle.getText().toString().equals(""))
+                {
+                    editTextTitle.setError(getString(R.string.enter_a_title));
+                    return false;
+                } else {
+                    if (editTextText.getText().toString().equals("")) {
+                        editTextText.setError(getString(R.string.enter_text));
+                        return false;
+                    } else {
+                        dateOfCreate = dbHelper.getTodayDateString();
+                        Task task;
+                        task = new Task(-1,
+                                editTextTitle.getText().toString(),
+                                subject,
+                                dateOfCreate,
+                                deadLine,
+                                editTextText.getText().toString(),
+                                checkListCount,
+                                conspectsCount,
+                                0);
+                        if (conspectsCount > 0) {
+                            task.addConspects(conspects);
+                        }
+                        if (checkListCount > 0) {
+                            task.addCheckList(checkListItems);
+                        }
+                        if (type.equals("add")) {
+                            dbHelper.insertTask(task);
+                            Toast.makeText(this, getString(R.string.task_added), Toast.LENGTH_SHORT).show();
+                        } else {
+                            task.id = id;
+                            dbHelper.updateTask(task);
+                            Toast.makeText(this, getString(R.string.task_edited), Toast.LENGTH_SHORT).show();
+                        }
+                        finish();
+                        return true;
+                    }
                 }
-                if (checkListCount > 0) {
-                    task.addCheckList(checkListItems);
-                }
-                dbHelper.insertTask(task);
-                Toast.makeText(this, getString(R.string.task_added), Toast.LENGTH_SHORT).show();
-                finish();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
