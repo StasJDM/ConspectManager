@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SubjectsActivity"></activity>
+        <activity android:name=".ConspectsBySubjectsActivity"></activity>
+        <activity android:name=".SubjectsActivity" />
         <activity android:name=".OneTaskActivity" />
         <activity android:name=".AddTaskActivity" />
         <activity

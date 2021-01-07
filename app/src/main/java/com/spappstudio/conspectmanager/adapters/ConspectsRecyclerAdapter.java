@@ -1,36 +1,39 @@
 package com.spappstudio.conspectmanager.adapters;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.spappstudio.conspectmanager.R;
-import com.spappstudio.conspectmanager.objects.Subject;
+import com.spappstudio.conspectmanager.objects.Conspect;
+import com.spappstudio.conspectmanager.picassotransform.RoundedCornersTransform;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class SubjectsRecyclerAdapter extends RecyclerView.Adapter<SubjectsRecyclerAdapter.ViewHolder> {
+public class ConspectsRecyclerAdapter extends RecyclerView.Adapter<ConspectsRecyclerAdapter.ViewHolder> {
 
-    private ArrayList<Subject> dataset;
+    private ArrayList<Conspect> dataset;
 
     private static ItemClickListener itemClickListener;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-
-        TextView textViewTitle;
-        TextView textViewConspectCount;
+    public static class ViewHolder extends  RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+        ImageView imageView;
+        TextView textViewName;
+        TextView textViewSubjectDate;
 
         public ViewHolder(View view) {
             super(view);
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
-            textViewTitle = view.findViewById(R.id.textViewTitle);
-            textViewConspectCount = view.findViewById(R.id.textViewConspectsCount);
+            imageView = view.findViewById(R.id.imageView);
+            textViewName = view.findViewById(R.id.textViewName);
+            textViewSubjectDate = view.findViewById(R.id.textViewSubjectDate);
         }
 
         @Override
@@ -45,31 +48,32 @@ public class SubjectsRecyclerAdapter extends RecyclerView.Adapter<SubjectsRecycl
         }
     }
 
-    public SubjectsRecyclerAdapter(ArrayList<Subject> dataset) {
+    public ConspectsRecyclerAdapter(ArrayList<Conspect> dataset) {
         this.dataset = dataset;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.subjects_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_all_notes, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.textViewTitle.setText(dataset.get(position).name);
-        holder.textViewConspectCount.setText(String.valueOf(dataset.get(position).conspectCount));
-    }
-
-    public void setOnItemClickListener(ItemClickListener itemClickListener) {
-        SubjectsRecyclerAdapter.itemClickListener = itemClickListener;
+        holder.textViewName.setText(dataset.get(position).name);
+        holder.textViewSubjectDate.setText(dataset.get(position).date);
+        Picasso.get().load("file:" + dataset.get(position).first_image_path).transform(new RoundedCornersTransform()).resize(128, 128).centerCrop().into(holder.imageView);
     }
 
     @Override
     public int getItemCount() {
         return dataset.size();
+    }
+
+    public void setOnItemClickListener(ItemClickListener itemClickListener) {
+        ConspectsRecyclerAdapter.itemClickListener = itemClickListener;
     }
 
     public interface ItemClickListener {

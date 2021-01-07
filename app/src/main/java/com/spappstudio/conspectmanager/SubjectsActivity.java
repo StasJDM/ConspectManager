@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.spappstudio.conspectmanager.adapters.SubjectsRecyclerAdapter;
 import com.spappstudio.conspectmanager.objects.Subject;
@@ -34,6 +36,19 @@ public class SubjectsActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerAdapter = new SubjectsRecyclerAdapter(subjects);
+        recyclerAdapter.setOnItemClickListener(new SubjectsRecyclerAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+                Intent intent = new Intent(SubjectsActivity.this, ConspectsBySubjectsActivity.class);
+                intent.putExtra("subject", subjects.get(position).name);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onItemLongClick(int position, View v) {
+
+            }
+        });
         recyclerView.setAdapter(recyclerAdapter);
     }
 }
