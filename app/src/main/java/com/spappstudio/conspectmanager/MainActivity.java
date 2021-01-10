@@ -38,14 +38,17 @@ public class MainActivity extends AppCompatActivity {
                     Manifest.permission.WRITE_EXTERNAL_STORAGE);
             int cameraPermission = ActivityCompat.checkSelfPermission(this,
                     Manifest.permission.CAMERA);
+            int internetPermission = ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.INTERNET);
 
             if (writePermission != PackageManager.PERMISSION_GRANTED ||
                     readPermission != PackageManager.PERMISSION_GRANTED ||
-                    cameraPermission != PackageManager.PERMISSION_GRANTED) {
+                    cameraPermission != PackageManager.PERMISSION_GRANTED ||
+                    internetPermission != PackageManager.PERMISSION_GRANTED) {
 
                 this.requestPermissions(
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
+                                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.INTERNET},
                         REQUEST_ID_READ_WRITE_PERMISSION
                 );
             }
