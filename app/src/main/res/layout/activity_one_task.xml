@@ -5,14 +5,68 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".OneTaskActivity">
+    tools:context=".OneTaskActivity"
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/textViewText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
         android:textSize="18dp"
         android:text="TextView" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        android:background="@color/colorLine"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:id="@+id/textViewConpect"
+            android:visibility="gone"
+            android:text="@string/conspect" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipConspect"
+            android:layout_marginHorizontal="2dp"
+            style="@style/Widget.MaterialComponents.Chip.Action"
+            android:visibility="gone"
+            android:onClick="onClickOpenConspect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:id="@+id/textViewDeadline"
+            android:visibility="gone"
+            android:text="@string/deadline" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipDeadline"
+            android:layout_marginHorizontal="2dp"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 </LinearLayout>

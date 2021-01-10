@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@color/colorBackgroundGray">
 
     <TextView
         android:layout_width="wrap_content"
@@ -22,55 +23,73 @@
         android:orientation="horizontal"
         android:gravity="center_horizontal">
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_margin="8dp"
+            app:cardCornerRadius="24dp"
+            android:onClick="onClickAdd">
 
-        <ImageButton
-            android:id="@+id/imageButtonAdd"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:padding="20dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="5dp"
-            app:srcCompat="@drawable/ic_library_add_white_48dp"
-            android:background="@drawable/background_1"
-            android:onClick="onClickAdd" />
+            <LinearLayout
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:orientation="vertical"
+                android:gravity="center">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@string/add_conspect"
-                android:textSize="20sp" />
+                <ImageButton
+                    android:id="@+id/imageButtonAdd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:tint="@color/colorPrimary"
+                    app:srcCompat="@drawable/ic_library_add_white_48dp"
+                    android:onClick="onClickAdd"/>
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@string/add_conspect"
+                    android:textSize="20sp"
+                    android:onClick="onClickAdd"/>
 
-        <LinearLayout
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_margin="8dp"
+            app:cardCornerRadius="24dp"
+            android:onClick="onClickAll">
 
-            <ImageButton
-                android:id="@+id/imageButtonAll"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:padding="20dp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginVertical="5dp"
-                app:srcCompat="@drawable/ic_library_books_white_48dp"
-                android:background="@drawable/background_1"
-                android:onClick="onClickAll" />
+            <LinearLayout
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:orientation="vertical"
+                android:gravity="center">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@string/all_conspects"
-                android:textSize="20sp" />
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageButtonAll"
+                    app:srcCompat="@drawable/ic_library_books_white_48dp"
+                    android:background="@android:color/white"
+                    android:tint="@color/colorPrimary"
+                    android:onClick="onClickAll"/>
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@string/all_conspects"
+                    android:textSize="20sp"
+                    android:onClick="onClickAll"/>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 
@@ -80,55 +99,73 @@
         android:orientation="horizontal"
         android:gravity="center_horizontal">
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_margin="8dp"
+            app:cardCornerRadius="24dp"
+            android:onClick="onClickTasks" >
 
-            <ImageButton
-                android:id="@+id/imageButtonTasks"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:padding="20dp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginVertical="5dp"
-                app:srcCompat="@drawable/ic_library_add_white_48dp"
-                android:background="@drawable/background_1"
-                android:onClick="onClickTasks" />
+            <LinearLayout
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:orientation="vertical"
+                android:gravity="center">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@string/tasks"
-                android:textSize="20sp" />
+                <ImageButton
+                    android:id="@+id/imageButtonTasks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_library_add_white_48dp"
+                    android:background="@android:color/white"
+                    android:tint="@color/colorPrimary"
+                    android:onClick="onClickTasks"/>
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@string/tasks"
+                    android:textSize="20sp"
+                    android:onClick="onClickTasks"/>
 
-        <LinearLayout
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_margin="8dp"
+            app:cardCornerRadius="24dp"
+            android:onClick="onClickSubjects" >
 
-            <ImageButton
-                android:id="@+id/imageButtonSubjects"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:padding="20dp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginVertical="5dp"
-                app:srcCompat="@drawable/ic_library_books_white_48dp"
-                android:background="@drawable/background_1"
-                android:onClick="onClickSubjects" />
+            <LinearLayout
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:orientation="vertical"
+                android:gravity="center">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@string/subject"
-                android:textSize="20sp" />
+                <ImageButton
+                    android:id="@+id/imageButtonSubjects"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_library_books_white_48dp"
+                    android:background="@android:color/white"
+                    android:tint="@color/colorPrimary"
+                    android:onClick="onClickSubjects"/>
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@string/subject"
+                    android:textSize="20sp"
+                    android:onClick="onClickSubjects"/>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 

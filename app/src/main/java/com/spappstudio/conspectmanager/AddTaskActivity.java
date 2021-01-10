@@ -113,6 +113,23 @@ public class AddTaskActivity extends AppCompatActivity implements SelectConspect
             task = dbHelper.getTask(id);
             editTextTitle.setText(task.title);
             editTextText.setText(task.text);
+            subject = task.subject;
+            dateOfCreate = task.dateOfCreate;
+            if (task.conspectsCount > 0) {
+                chipConspect.setVisibility(View.VISIBLE);
+                conspects = task.getConspects();
+                conspectsCount = task.conspectsCount;
+                chipConspect.setText(conspects.get(0).name);
+                imageButtonConspect.setClickable(false);
+                imageButtonConspect.setColorFilter(Color.GRAY);
+            }
+            if (!task.deadline.equals("")) {
+                chipDeadline.setVisibility(View.VISIBLE);
+                deadLine = task.deadline;
+                chipDeadline.setText(deadLine);
+                imageButtonDeadline.setClickable(false);
+                imageButtonDeadline.setColorFilter(Color.GRAY);
+            }
             setTitle(getString(R.string.edit_task));
         } else {
             setTitle(getString(R.string.add_task));
@@ -243,6 +260,5 @@ public class AddTaskActivity extends AppCompatActivity implements SelectConspect
             chipConspect.setVisibility(View.VISIBLE);
         }
         this.conspectsCount = conspects.size();
-        Log.d("LOG", "CONSPECTS: " + conspects.size());
     }
 }
