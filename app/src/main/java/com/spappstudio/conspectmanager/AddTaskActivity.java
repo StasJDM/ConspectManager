@@ -7,16 +7,20 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.material.chip.Chip;
 import com.spappstudio.conspectmanager.dialogs.BackDialog;
 import com.spappstudio.conspectmanager.dialogs.SelectConspectDialog;
 import com.spappstudio.conspectmanager.dialogs.SelectSubjectDialog;
@@ -31,16 +35,20 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
-public class AddTaskActivity extends AppCompatActivity implements SelectSubjectInterface, SelectConspectInterface {
+public class AddTaskActivity extends AppCompatActivity implements SelectConspectInterface {
 
     DBHelper dbHelper;
 
     Task task;
     int id;
+    String type;
 
     EditText editTextTitle;
     EditText editTextText;
-    String type;
+    ImageButton imageButtonConspect;
+    ImageButton imageButtonDeadline;
+    Chip chipConspect;
+    Chip chipDeadline;
 
     String subject = "";
     String dateOfCreate = "";
@@ -72,6 +80,31 @@ public class AddTaskActivity extends AppCompatActivity implements SelectSubjectI
 
         editTextTitle = findViewById(R.id.editTextTitle);
         editTextText = findViewById(R.id.editTextText);
+        imageButtonConspect = findViewById(R.id.imageButtonConspects);
+        imageButtonDeadline = findViewById(R.id.imageButtonDeadline);
+        chipConspect = findViewById(R.id.chipConspect);
+        chipDeadline = findViewById(R.id.chipDeadline);
+
+        chipConspect.setOnCloseIconClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chipConspect.setVisibility(View.GONE);
+                imageButtonConspect.setColorFilter(Color.parseColor("#0097A7"));
+                imageButtonConspect.setClickable(true);
+                conspectsCount = 0;
+                conspects.clear();
+            }
+        });
+
+        chipDeadline.setOnCloseIconClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chipDeadline.setVisibility(View.GONE);
+                imageButtonDeadline.setColorFilter(Color.parseColor("#0097A7"));
+                imageButtonDeadline.setClickable(true);
+                deadLine = "";
+            }
+        });
 
         dbHelper = new DBHelper(this);
 
@@ -122,9 +155,9 @@ public class AddTaskActivity extends AppCompatActivity implements SelectSubjectI
                         if (conspectsCount > 0) {
                             task.addConspects(conspects);
                         }
-                        if (checkListCount > 0) {
+                        /*if (checkListCount > 0) {
                             task.addCheckList(checkListItems);
-                        }
+                        }*/
                         if (type.equals("add")) {
                             dbHelper.insertTask(task);
                             Toast.makeText(this, getString(R.string.task_added), Toast.LENGTH_SHORT).show();
@@ -154,11 +187,11 @@ public class AddTaskActivity extends AppCompatActivity implements SelectSubjectI
         return true;
     }
 
-    public void onClickSubjects(View view) {
+    /*public void onClickSubjects(View view) {
         String[] arr = new String[subjectsArrayList.size()];
         SelectSubjectDialog subjectDialog = new SelectSubjectDialog(subjectsArrayList.toArray(arr));
         subjectDialog.show(getSupportFragmentManager(), "Subjects");
-    }
+    }*/
 
     public void onClickConspects(View view) {
         String[] arr = new String[conspectsArrayList.size()];
@@ -180,14 +213,18 @@ public class AddTaskActivity extends AppCompatActivity implements SelectSubjectI
             calendar.set(Calendar.YEAR, year);
             calendar.set(Calendar.MONTH, month);
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            imageButtonDeadline.setClickable(false);
+            imageButtonDeadline.setColorFilter(Color.GRAY);
+            chipDeadline.setText(deadLine);
+            chipDeadline.setVisibility(View.VISIBLE);
         }
     };
 
-    @Override
+    /*@Override
     public void selectSubject(String subjectName) {
         this.subject = subjectName;
         Log.d("Log", subjectName);
-    }
+    }*/
 
     @Override
     public void selectConspect(int id) {
@@ -200,6 +237,10 @@ public class AddTaskActivity extends AppCompatActivity implements SelectSubjectI
         }
         if (!cons) {
             conspects.add(conspect);
+            imageButtonConspect.setClickable(false);
+            imageButtonConspect.setColorFilter(Color.GRAY);
+            chipConspect.setText(conspect.name);
+            chipConspect.setVisibility(View.VISIBLE);
         }
         this.conspectsCount = conspects.size();
         Log.d("LOG", "CONSPECTS: " + conspects.size());
