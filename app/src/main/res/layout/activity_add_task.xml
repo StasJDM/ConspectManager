@@ -36,6 +36,21 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipConspect"
+            android:visibility="gone"
+            style="@style/Widget.MaterialComponents.Chip.Action"
+            app:closeIconEnabled="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipDeadline"
+            style="@style/Widget.MaterialComponents.Chip.Entry"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -44,15 +59,12 @@
         android:orientation="vertical"
         android:layout_alignParentBottom="true">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorLine"/>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="38dp"
             android:orientation="horizontal">
+
+            <!--
 
             <ImageButton
                 android:id="@+id/imageButton"
@@ -76,6 +88,8 @@
                 android:background="#00FFFFFF"
                 android:tint="@color/colorAccent"
                 app:srcCompat="@drawable/ic_school_white_48dp" />
+
+                -->
 
             <ImageButton
                 android:id="@+id/imageButtonConspects"
