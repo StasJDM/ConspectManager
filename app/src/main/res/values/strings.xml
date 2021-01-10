@@ -52,15 +52,7 @@
     <string name="tasks">Tasks</string>
 
     <string name="title_activity_view_images">ActivityViewImages</string>
-    <string name="title_activity_tasks">TasksActivity</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_tasks">Tasks</string>
 
     <string name="add_task">Add a task</string>
     <string name="task_added">Task added</string>
@@ -71,5 +63,11 @@
     <string name="enter_text">Enter the text of the note</string>
     <string name="task_will_delete">Task will be deleted</string>
     <string name="edit_task">Edit task</string>
+    <string name="delete_task">Delete task</string>
     <string name="task_edited">Task edited</string>
+    <string name="conspect">Conspectus</string>
+    <string name="deadline">Completion date</string>
+    <string name="text">Text</string>
+
+    <string name="banner_view_conspect">ca-app-pub-7669772816496338/2634323461</string>
 </resources>

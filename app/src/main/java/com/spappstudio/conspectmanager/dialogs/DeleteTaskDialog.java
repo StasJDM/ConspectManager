@@ -21,13 +21,17 @@ public class DeleteTaskDialog extends DialogFragment {
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final int id = getArguments().getInt("id");
-        final int position = getArguments().getInt("position");
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         return builder.setMessage(getString(R.string.task_will_delete)).setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 new DBHelper(getContext()).deleteTask(id);
-                notifyListener.onDelete(position);
+                if (getArguments().containsKey("position")) {
+                    final int position = getArguments().getInt("position");
+                    notifyListener.onDelete(position);
+                } else {
+                    getActivity().finish();
+                }
             }
         }).setNegativeButton(getString(R.string.cancel), null).create();
     }

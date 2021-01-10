@@ -13,9 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.chip.Chip;
 import com.spappstudio.conspectmanager.adapters.RecyclerAdapeter;
 import com.spappstudio.conspectmanager.dialogs.DeleteDialog;
+import com.spappstudio.conspectmanager.objects.Conspect;
 import com.spappstudio.conspectmanager.objects.Photo;
 
 import java.util.ArrayList;
@@ -29,6 +32,8 @@ public class OneNoteActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerAdapeter recyclerViewAdapter;
     RecyclerView.LayoutManager layoutManager;
+
+    AdView adView;
 
     int id;
     int n_photos;
@@ -52,15 +57,21 @@ public class OneNoteActivity extends AppCompatActivity {
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        adView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+
         Intent intent = getIntent();
         id = intent.getExtras().getInt("id");
-        name = intent.getExtras().getString("name");
-        subject = intent.getExtras().getString("subject");
-        date = intent.getExtras().getString("date");
-        about = intent.getExtras().getString("about");
-        n_photos = intent.getExtras().getInt("n_photos");
 
         DBHelper dbHelper = new DBHelper(this);
+        Conspect conspect = dbHelper.getConspectById(id);
+        name = conspect.name;
+        subject = conspect.subject;
+        date = conspect.date;
+        about = conspect.about;
+        n_photos = conspect.n_photos;
+
         photos = dbHelper.getPhotos(id);
         pageCount = photos.size();
 

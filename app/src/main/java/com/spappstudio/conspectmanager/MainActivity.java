@@ -9,7 +9,10 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 
-import java.util.ArrayList;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +22,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+
+            }
+        });
 
         if (android.os.Build.VERSION.SDK_INT >= 23) {
 

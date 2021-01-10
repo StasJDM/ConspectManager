@@ -31,6 +31,8 @@
             android:id="@+id/textViewText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minLines="1"
+            android:maxLines="3"
             android:text="Сделать это\nи это\nи еще много чего\nтак, чтобы задание прям на много строк было\nно желательно, не на очень много\nна строк 5"/>
 
         </LinearLayout>

@@ -50,7 +50,8 @@
     <string name="delete_conspect">Удалить конспект</string>
     <string name="tasks">Задания</string>
 
-    <string name="title_activity_view_images">ActivityViewImages</string>
+    <string name="title_activity_view_images">Просмотр изображений</string>
+    <string name="title_activity_tasks">Задачи</string>
 
     <string name="add_task">Добавить задачу</string>
     <string name="task_added">Задача добавлена</string>
@@ -61,5 +62,11 @@
     <string name="enter_text">Введите текст заметки</string>
     <string name="task_will_delete">Задача будет удалена</string>
     <string name="edit_task">Редактировать задачу</string>
+    <string name="delete_task">Удалить задачу</string>
     <string name="task_edited">Задача изменена</string>
+    <string name="conspect">Конспект</string>
+    <string name="deadline">Срок выполнения</string>
+    <string name="text">Текст</string>
+
+    <string name="banner_view_conspect">ca-app-pub-7669772816496338/2634323461</string>
 </resources>

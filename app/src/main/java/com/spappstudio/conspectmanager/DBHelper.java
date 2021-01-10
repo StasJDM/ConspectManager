@@ -119,9 +119,21 @@ public class DBHelper extends SQLiteOpenHelper {
                 db.execSQL("CREATE TABLE " + CONSPECTS_OF_TASK_TABLE_NAME + "(task_id INTEGER, conspect_id INTEGER)");
                 db.execSQL("CREATE TABLE " + SUBJECT_TABLE_NAME + "(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT)");
 
-                ArrayList<String> subjects = getSubjectsFromConspects();
+                //ArrayList<String> subjects = getSubjectsFromConspects();
+                ArrayList<String> subjects = new ArrayList<>();
+                Cursor cursor = db.rawQuery("SELECT DISTINCT("+ CONSPECT_TABLE_COLUMN_SUBJECT +") FROM " + CONSPECT_TABLE_NAME + ";", null);
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    if (!cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_SUBJECT)).isEmpty()) {
+                        subjects.add(cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_SUBJECT)));
+                    }
+                    cursor.moveToNext();
+                }
+                cursor.close();
                 for (String s : subjects) {
-                    insertSubject(s);
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(SUBJECT_TABLE_COLUMN_TITLE, s);
+                    db.insert(SUBJECT_TABLE_NAME, null, contentValues);
                 }
                 break;
             default:
@@ -174,17 +186,18 @@ public class DBHelper extends SQLiteOpenHelper {
         /*if (task.checkListCount > 0) {
             updateCheckList(task.getCheckList(), id);
         }
+        */
 
         if (task.conspectsCount > 0) {
             updateConspectOfTask(task.getConspects(), id);
-        }*/
+        }
     }
 
     public ArrayList<Task> getAllTasks() {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<Task> tasks = new ArrayList<>();
         Cursor cursor = db.query(TASK_TABLE_NAME, null, null,
-                null, null, null, null);
+                null, null, null, TASK_TABLE_COLUMN_ID + " DESC");
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Task task = new Task(
@@ -280,7 +293,19 @@ public class DBHelper extends SQLiteOpenHelper {
             contentValues.clear();
             contentValues.put(CONSPECTS_TASK_TABLE_COLUMN_TASK_ID, task_id);
             contentValues.put(CONSPECTS_TASK_TABLE_COLUMN_CONSPECT_ID, item.id);
-            db.insert(CONSPECT_TABLE_NAME, null, contentValues);
+            db.insert(CONSPECTS_OF_TASK_TABLE_NAME, null, contentValues);
+        }
+    }
+
+    public void updateConspectOfTask(ArrayList<Conspect> conspects, long task_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        for (Conspect item : conspects) {
+            contentValues.clear();
+            contentValues.put(CONSPECTS_TASK_TABLE_COLUMN_TASK_ID, task_id);
+            contentValues.put(CONSPECTS_TASK_TABLE_COLUMN_CONSPECT_ID, item.id);
+            db.delete(CONSPECTS_OF_TASK_TABLE_NAME, "task_id = ?", new String[] {String.valueOf(task_id)});
+            db.insert(CONSPECTS_OF_TASK_TABLE_NAME, null, contentValues);
         }
     }
 
@@ -300,16 +325,16 @@ public class DBHelper extends SQLiteOpenHelper {
             Cursor cursorConspects = db.query(CONSPECT_TABLE_NAME, null,
                     CONSPECT_TABLE_COLUMN_ID + "=?", new String[] {String.valueOf(id)},
                     null, null, null);
-            cursor.moveToFirst();
+            cursorConspects.moveToFirst();
             conspects.add(new Conspect(id,
-                    cursor.getInt(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_N_PHOTOS)),
-                    cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_NAME)),
-                    cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_SUBJECT)),
-                    cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_DATE)),
-                    cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_ABOUT)),
-                    cursor.getString(cursor.getColumnIndex(CONSPECT_TABLE_COLUMN_FIRST_IMAGE_PATH))
+                    cursorConspects.getInt(cursorConspects.getColumnIndex(CONSPECT_TABLE_COLUMN_N_PHOTOS)),
+                    cursorConspects.getString(cursorConspects.getColumnIndex(CONSPECT_TABLE_COLUMN_NAME)),
+                    cursorConspects.getString(cursorConspects.getColumnIndex(CONSPECT_TABLE_COLUMN_SUBJECT)),
+                    cursorConspects.getString(cursorConspects.getColumnIndex(CONSPECT_TABLE_COLUMN_DATE)),
+                    cursorConspects.getString(cursorConspects.getColumnIndex(CONSPECT_TABLE_COLUMN_ABOUT)),
+                    cursorConspects.getString(cursorConspects.getColumnIndex(CONSPECT_TABLE_COLUMN_FIRST_IMAGE_PATH))
                     ));
-            cursor.close();
+            cursorConspects.close();
         }
         return conspects;
     }
@@ -525,7 +550,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public ArrayList<String> getSubjectsFromConspects() {
         SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<String> subjects = new ArrayList<String>();
+        ArrayList<String> subjects = new ArrayList<>();
         Cursor cursor = db.rawQuery("SELECT DISTINCT("+ CONSPECT_TABLE_COLUMN_SUBJECT +") FROM " + CONSPECT_TABLE_NAME + ";", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {

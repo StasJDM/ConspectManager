@@ -18,9 +18,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class TasksActivity extends AppCompatActivity {
 
@@ -39,6 +42,8 @@ public class TasksActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tasks);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +57,7 @@ public class TasksActivity extends AppCompatActivity {
 
         dbHelper = new DBHelper(this);
         tasks = dbHelper.getAllTasks();
+        Collections.reverse(tasks);
 
         recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
 
@@ -90,7 +96,16 @@ public class TasksActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     protected void onResume() {
