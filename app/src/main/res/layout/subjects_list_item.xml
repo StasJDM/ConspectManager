@@ -31,7 +31,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Conspectus count: " />
+                android:text="@string/conspect_count" />
 
             <TextView
                 android:id="@+id/textViewConspectsCount"

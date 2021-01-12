@@ -67,6 +67,7 @@
     <string name="conspect">Conspectus</string>
     <string name="deadline">Completion date</string>
     <string name="text">Text</string>
+    <string name="conspect_count">Conspectus count: </string>
 
     <string name="banner_view_conspect">ca-app-pub-7669772816496338/2634323461</string>
 </resources>

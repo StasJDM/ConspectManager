@@ -67,6 +67,7 @@
     <string name="conspect">Конспект</string>
     <string name="deadline">Срок выполнения</string>
     <string name="text">Текст</string>
+    <string name="conspect_count">Количество конспектов: </string>
 
     <string name="banner_view_conspect">ca-app-pub-7669772816496338/2634323461</string>
 </resources>
